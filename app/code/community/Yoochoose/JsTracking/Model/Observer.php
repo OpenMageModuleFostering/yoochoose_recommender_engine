@@ -18,7 +18,7 @@ class Yoochoose_JsTracking_Model_Observer
             return;
         }
 
-        $block = Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('head');
+        $block = Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('yoochoose.jstracking');
         if ($block) {
             $block->setOrderId(end($orderIds));
         }
