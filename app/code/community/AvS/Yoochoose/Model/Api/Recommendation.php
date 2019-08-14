@@ -104,6 +104,7 @@ abstract class AvS_Yoochoose_Model_Api_Recommendation extends AvS_Yoochoose_Mode
 				getCollection()->
 				addAttributeToSelect('name')->
 				addAttributeToSelect('small_image')->
+				addAttributeToSelect('thumbnail')->
 				addAttributeToSelect('visibility')->
 				addAttributeToSelect('rating_summary')->
 				addFinalPrice()->
@@ -180,15 +181,34 @@ abstract class AvS_Yoochoose_Model_Api_Recommendation extends AvS_Yoochoose_Mode
      * @return array
      */
     public function mergeItemArrays($itemArray1, $itemArray2, $columns) {
+    	
+    	$numrec = $this->getMaxNumberProducts($columns);
+    	
         foreach($itemArray2 as $item) {
         	if ( ! $this->findProduct($itemArray1, $item->getEntityId())) {
-                $itemArray1[] = $item;
-                if (count($itemArray1) >= $this->getMaxNumberProducts($columns)) {
+        		
+                if (count($itemArray1) >= $numrec) {
                     break;
                 }
+                
+                $this->initProductUrl($item);
+        		
+                $itemArray1[] = $item;
             }
         }
         return $itemArray1;
+    }
+    
+    
+    private function initProductUrl($product) {
+    	    	
+    	$additional = array();
+    	
+       	$additional['_query'] = array('recommended' => $this->getScenario());
+       	
+       	$url = $product->getUrlModel()->getUrl($product, $additional);
+       	
+       	$product->setDate('url', $url);
     }
 
     

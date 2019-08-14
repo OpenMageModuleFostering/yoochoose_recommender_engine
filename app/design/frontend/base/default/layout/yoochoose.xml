@@ -16,7 +16,7 @@
     
     <cms_index_index>
         <reference name="content">
-		    <block type="yoochoose/bestseller" name="yoochoose.bestseller" template="yoochoose/new.phtml">
+		    <block type="yoochoose/bestseller" name="yoochoose.bestseller" template="catalog/product/new.phtml">
 	           	<action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
 	            <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
 	            <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
@@ -30,7 +30,7 @@
         </reference>
         
         <reference name="content">
-		    <block type="yoochoose/personal" name="yoochoose.personal" template="yoochoose/new.phtml">
+		    <block type="yoochoose/personal" name="yoochoose.personal" template="catalog/product/new.phtml">
 	           	<action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
 	            <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
 	            <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>

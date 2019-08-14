@@ -7,6 +7,26 @@
  */
 
 class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api {
+	
+	
+	
+    public function getRenderedTrackingPixelData($ids = array(), $scenario = null) {
+    	
+    	$itemType = Mage::getStoreConfig('yoochoose/api/item_type');
+    	$result = array();
+
+    	if (! empty($ids)) {
+	        $trackingPixelData = array(
+	            'ItemId'        => implode(",", $ids),
+	            'ItemTypeId'    => $itemType,
+	            'EventType'     => self::EVENT_TYPE_RENDER,
+	        	'scenario'      => $scenario
+	        );
+	        $result[] = $trackingPixelData;
+    	}
+        
+        return $result;
+    }
 
 	
     /**
@@ -188,7 +208,7 @@ class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api {
      * @return array
      */
     protected function _getSecondaryParams($trackingPixelData) {
-        unset($trackingPixelData['EventType']);
+        if (isset($trackingPixelData['EventType'])) unset($trackingPixelData['EventType']);
         unset($trackingPixelData['ItemTypeId']);
         unset($trackingPixelData['ItemId']);
         unset($trackingPixelData['userId']);

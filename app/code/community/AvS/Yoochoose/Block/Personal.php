@@ -28,4 +28,15 @@ class AvS_Yoochoose_Block_Personal extends AvS_Yoochoose_Block_Recoabstract {
     	$api = Mage::getSingleton('yoochoose/api_recommendation_personal');
     	return $api;
     }
+    
+    
+	protected function oldHeaderKey() {
+    	return 'New Products';
+    }
+
+    
+    protected function newHeaderKey() {
+    	return 'Recommendations for You';
+    }
+ 
 }

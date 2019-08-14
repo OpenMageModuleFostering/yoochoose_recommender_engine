@@ -48,6 +48,14 @@ class AvS_Yoochoose_Block_Tracking extends Mage_Core_Block_Template {
                     $this->_trackingPixelData = Mage::getSingleton('yoochoose/api_event')->getCheckoutSuccessTrackingPixelData();
                     break;
             }
+            
+            $render = $this->getData("render_urls");
+
+            if (is_array($render)) {
+            	foreach ($render as $r) {
+            		$this->_trackingPixelData[] = $r;
+            	}
+            }
         }
 
         return $this->_trackingPixelData;

@@ -7,7 +7,7 @@
  */
 
 class AvS_Yoochoose_Block_Bestseller extends AvS_Yoochoose_Block_Recoabstract {
-    
+   
 	
     protected function isPreferManual() {
     	return false;
@@ -23,4 +23,16 @@ class AvS_Yoochoose_Block_Bestseller extends AvS_Yoochoose_Block_Recoabstract {
     	$api = Mage::getSingleton('yoochoose/api_recommendation_bestseller');
     	return $api;
     }
+    
+	
+	protected function oldHeaderKey() {
+    	return 'New Products';
+    }
+
+    
+    protected function newHeaderKey() {
+    	return 'Best Sellers';
+    }
+ 
+    
 }
