@@ -16,11 +16,11 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <comment><![CDATA[
-                        <script type="text/javascript">
+                        <!--script type="text/javascript">
                             document.observe("dom:loaded", function() {
                                 $('yoochoose_general_stats').replace($('yoochoose_general_stats').value);
                             });
-                        </script>
+                        </script-->
                     ]]></comment>
                     <fields>
                         <disabled translate="label">
@@ -32,14 +32,13 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </disabled>
-                        <stats translate="label">
+                        <!--stats translate="label">
                             <label>Statistics</label>
-                            <frontend_type>textarea</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </stats>
+                        </stats-->
                     </fields>
                 </general>
                 <api translate="label">
@@ -57,8 +56,8 @@
                     ]]></comment>
                     <fields>
                         <client_id translate="label,comment">
-                            <label>Yoochoose Client ID</label>
-                            <comment><![CDATA[If you don't have a Client ID yet, <a href="https://config.yoochoose.net/registration/registration.jsp?role=magento&lang=en" target="_blank">click here</a>.]]></comment>
+                            <label>Yoochoose Customer ID</label>
+                            <comment><![CDATA[If you don't have a Customer ID yet, <a href="https://admin.yoochoose.net/registration_step_1.html?template=magento&solution=ebl" target="_blank">click here</a>.]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
@@ -67,6 +66,7 @@
                         </client_id>
                         <license_key translate="label">
                             <label>Yoochoose License Key</label>
+			    <comment><![CDATA[You can find your license key and detailed statistics on the <a href="https://admin.yoochoose.net">YOOCHOOSE Administration Portal</a>]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
@@ -108,24 +108,24 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </scenario>
-                        <!--prefer_manual_connections translate="label,comment">
-                            <label>Prefer manually entered Connections</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        <max_count translate="label">
+                            <label>Max count of recommendations</label>
+                            <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Don't display otherwise</comment>
-                        </prefer_manual_connections-->
-                        <max_count translate="label">
-                            <label>Max count of recommendations</label>
-                            <frontend_type>text</frontend_type>
+                        </max_count>
+                        <prefer_manual_connections translate="label,comment">
+                            <label>Prefer manually entered similar items</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </max_count>
+                            <comment>If set to 'Yes', similar items must be defined manually and the recommendation service is not used</comment>
+                        </prefer_manual_connections>
                     </fields>
                 </crossselling>
                 <upselling translate="label">
@@ -152,24 +152,24 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </scenario>
-                        <!--prefer_manual_connections translate="label,comment">
-                            <label>Prefer manually entered Connections</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        <max_count translate="label">
+                            <label>Max count of recommendations</label>
+                            <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Don't display otherwise</comment>
-                        </prefer_manual_connections-->
-                        <max_count translate="label">
-                            <label>Max count of recommendations</label>
-                            <frontend_type>text</frontend_type>
+                        </max_count>
+                        <prefer_manual_connections translate="label,comment">
+                            <label>Prefer manually entered similar items</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </max_count>
+			    <comment>If set to 'Yes', similar items must be defined manually and the recommendation service is not used</comment>
+                        </prefer_manual_connections>
                     </fields>
                 </upselling>
                 <related translate="label">
@@ -196,24 +196,24 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </scenario>
-                        <!--prefer_manual_connections translate="label,comment">
-                            <label>Prefer manually entered Connections</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        <max_count translate="label">
+                            <label>Max count of recommendations</label>
+                            <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Don't display otherwise</comment>
-                        </prefer_manual_connections-->
-                        <max_count translate="label">
-                            <label>Max count of recommendations</label>
-                            <frontend_type>text</frontend_type>
+                        </max_count>
+                        <prefer_manual_connections translate="label,comment">
+                            <label>Prefer manually entered similar items</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </max_count>
+			    <comment>If set to 'Yes', similar items must be defined manually and the recommendation service is not used</comment>
+                        </prefer_manual_connections>
                     </fields>
                 </related>
             </groups>

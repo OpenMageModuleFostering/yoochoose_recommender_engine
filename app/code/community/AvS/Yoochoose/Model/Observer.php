@@ -8,8 +8,8 @@
 
 class AvS_Yoochoose_Model_Observer
 {
-    const YOOCHOOSE_LICENSE_URL = 'https://config.yoochoose.net/ebl/%customer_id%/license.json';
-    const YOOCHOOSE_SUMMARY_URL = 'https://config.yoochoose.net/rest/%customer_id%/counter/summary.json';
+    const YOOCHOOSE_LICENSE_URL = 'https://admin.yoochoose.net/ebl/%customer_id%/license.json';
+    const YOOCHOOSE_SUMMARY_URL = 'https://admin.yoochoose.net/rest/%customer_id%/counter/summary.json';
 
     /**
      * Update field "yoochoose_user_id" from session to
@@ -130,6 +130,7 @@ class AvS_Yoochoose_Model_Observer
      */
     protected function _generateStatsHtml($stats)
     {
+	
         $statsHtml = '<table>';
         $statsLines = array();
         $baseSorting = 6;
@@ -150,27 +151,27 @@ class AvS_Yoochoose_Model_Observer
                     $sorting = 1;
                     break;
 
-                case 'RECO_also_purchased':
+                case 'RECO_related_products':
 
-                    $label = Mage::helper('yoochoose')->__('"Also purchased" recommendations');
+                    $label = Mage::helper('yoochoose')->__('"Related products" recommendations');
                     $sorting = 3;
                     break;
 
-                case 'RECO_also_clicked':
+                case 'RECO_cross_selling':
 
-                    $label = Mage::helper('yoochoose')->__('"Also clicked" recommendations');
+                    $label = Mage::helper('yoochoose')->__('"Cross selling" recommendations');
                     $sorting = 4;
                     break;
 
-                case 'RECO_top_selling':
+                case 'RECO_up_selling':
 
-                    $label = Mage::helper('yoochoose')->__('"Top selling" recommendations');
+                    $label = Mage::helper('yoochoose')->__('"Up selling" recommendations');
                     $sorting = 5;
                     break;
 
-                case 'DELIVERED_RECOS_also_purchased':
-                case 'DELIVERED_RECOS_also_clicked':
-                case 'DELIVERED_RECOS_top_selling':
+                case 'DELIVERED_RECOS_related_products':
+                case 'DELIVERED_RECOS_cross_selling':
+                case 'DELIVERED_RECOS_up_selling':
 
                     continue;
 
@@ -192,7 +193,8 @@ class AvS_Yoochoose_Model_Observer
 
         $statsHtml .= '</table>';
 
-        return $statsHtml;
+       return $statsHtml;
+	
     }
 
     protected function _setConfigData($configPath, $value)

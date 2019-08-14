@@ -3,7 +3,7 @@
 
 	<modules>
 		<AvS_Yoochoose>
-			<version>1.2.1</version>
+			<version>1.2.3</version>
 		</AvS_Yoochoose>
 	</modules>
 
@@ -147,22 +147,22 @@
                 <disabled>0</disabled>
             </general>
             <crossselling>
-                <display_yoochoose_recommendations>0</display_yoochoose_recommendations>
-                <scenario>also_purchased</scenario>
+                <display_yoochoose_recommendations>1</display_yoochoose_recommendations>
+                <scenario>cross_selling</scenario>
                 <prefer_manual_connections>0</prefer_manual_connections>
-                <max_count>4</max_count>
+                <max_count>3</max_count>
             </crossselling>
             <upselling>
-                <display_yoochoose_recommendations>0</display_yoochoose_recommendations>
-                <scenario>also_purchased</scenario>
+                <display_yoochoose_recommendations>1</display_yoochoose_recommendations>
+                <scenario>up_selling</scenario>
                 <prefer_manual_connections>0</prefer_manual_connections>
-                <max_count>4</max_count>
+                <max_count>3</max_count>
             </upselling>
             <related>
-                <display_yoochoose_recommendations>0</display_yoochoose_recommendations>
-                <scenario>also_clicked</scenario>
+                <display_yoochoose_recommendations>1</display_yoochoose_recommendations>
+                <scenario>related_products</scenario>
                 <prefer_manual_connections>0</prefer_manual_connections>
-                <max_count>4</max_count>
+                <max_count>3</max_count>
             </related>
         </yoochoose>
     </default>
@@ -178,11 +178,11 @@
             </modules>
         </translate>
 
-        <jobs>
+        <!--jobs>
             <yoochoose_update_stats>
                 <schedule><cron_expr>0 * * * *</cron_expr></schedule>
                 <run><model>yoochoose/observer::updateStats</model></run>
             </yoochoose_update_stats>
-        </jobs>
+        </jobs-->
     </crontab>
 </config>

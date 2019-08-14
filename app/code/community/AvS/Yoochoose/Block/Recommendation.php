@@ -14,7 +14,7 @@ class AvS_Yoochoose_Block_Recommendation extends Mage_Catalog_Block_Product_List
 
     protected $_maxItems = 0;
 
-    protected $_scenario = AvS_Yoochoose_Model_Api_Recommendation::SCENARIO_TOP_SELLING;
+    protected $_scenario = AvS_Yoochoose_Model_Api_Recommendation::SCENARIO_UP_SELLING;
 
     /**
      * Request Recommendations from Yoochoose Api and transform them to an array

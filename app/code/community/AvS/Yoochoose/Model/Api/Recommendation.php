@@ -8,9 +8,9 @@
 
 class AvS_Yoochoose_Model_Api_Recommendation extends AvS_Yoochoose_Model_Api
 {
-    const SCENARIO_ALSO_CLICKED     = 'also_clicked';
-    const SCENARIO_ALSO_PURCHASED   = 'also_purchased';
-    const SCENARIO_TOP_SELLING      = 'top_selling';
+    const SCENARIO_CROSS_SELLING     = 'cross_selling';
+    const SCENARIO_RELATED_PRODUCTS   = 'related_products';
+    const SCENARIO_UP_SELLING      = 'up_selling';
 
     protected $_recommendedProductIds   = array();
     protected $_numberProducts = 10;
