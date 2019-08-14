@@ -1,0 +1,391 @@
+<?xml version="1.0"?>
+
+<config>
+    <sections>
+        <yoochoose translate="label" module="yoochoose_jstracking">
+            <label>
+                <![CDATA[<img style="width: 16px; margin-left: -5px; margin-right: 5px; vertical-align: bottom;" src="data:image/png;base64,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"/> Yoochoose Recommendations]]>
+            </label>
+            <tab>service</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general>
+                    <label>General Settings</label>
+                    <sort_order>5</sort_order>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <click_here>
+                            <label>If you don't have a Customer ID yet, please</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>yoochoose_jstracking/field_register</frontend_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Please visit <a href='https://www.yoochoose.com' target='_blank'>
+                                     Yoochoose website</a> for information to pricing, data privacy and terms of service.]]></comment>
+                        </click_here>
+                        <customer_id translate="label">
+                            <label>Customer ID</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>yoochoose_jstracking/requiredValidation</backend_model> 
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-alphanum</validate>
+                        </customer_id>
+                        <license_key translate="label">
+                            <label>License Key</label>
+                            <comment><![CDATA[
+                            	You can find your license key and detailed statistics on the <a id="ycLicenceLink" 
+                                href='https://admin.yoochoose.net?customer_id={{mandator_id}}#plugin/configuration{{plugin-id}}' 
+                                target='_blank'>Yoochoose Configuration Backend</a>.
+                                <script>
+                                    window.onload = function(){
+                                        var link = document.getElementById('ycLicenceLink'),
+                                            mandator = document.getElementById('yoochoose_general_customer_id').value,
+                                            plugin = document.getElementById('yoochoose_general_plugin_id').value;
+                                        
+                                        link.href = link.href.replace('{{mandator_id}}', mandator);
+                                        plugin = (plugin ? '/' + plugin : '');
+                                        link.href = link.href.replace('{{plugin-id}}', plugin);
+                                     };
+                                </script>
+                            ]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>yoochoose_jstracking/requiredValidation</backend_model> 
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </license_key>
+                        <plugin_id>
+                            <label>Plugin ID</label>
+                            <comment>(optional) If all you shop views have the same design, leave it blank.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </plugin_id>
+                        <endpoint>
+                            <label>Endpoint</label>
+                            <sort_order>25</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>yoochoose_jstracking/field_readonly</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-url</validate>
+                        </endpoint>
+                        <design>
+                            <label>Design</label>
+                            <comment><![CDATA[We will try to find a design template for you shop. Please read 
+                                        <a href="https://www.yoochoose.com/magento-connect-2-tutorial" 
+                                        target="_blank">Magento Connect Extention Tutorial</a>, if you need to customize 
+                                        the desing of the recommendations.]]></comment>
+                            <sort_order>26</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>yoochoose_jstracking/field_readonly</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-alphanum</validate>
+                        </design>
+                        <endpoint_overwrite>
+                            <comment><![CDATA[Overwrite endpoint and design configuration, 
+                                    if exists (it happens once, as you clicks "Save")
+                                <script>
+                                (function (){
+        document.getElementById('yoochoose_general_endpoint_overwrite').onchange = function (e){
+            var value = e.target.value == 1 ? false : true;
+            document.getElementById('yoochoose_general_endpoint').readOnly = value;
+            document.getElementById('yoochoose_general_design').readOnly = value;
+        };
+    })();</script>
+                                    ]]></comment>
+                            <sort_order>30</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </endpoint_overwrite>
+                        <itemtypeid translate="label">
+                            <label>Item type</label>
+                            <comment><![CDATA[In the most cases the item type must be set to 1. 
+                                        If more than one type is needed or if more, than one 
+                                        shop language is supported, please read the 
+                                        <a href="http://doc.yoochoose.net/" target="_blank" >User Guide</a>.]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <backend_model>yoochoose_jstracking/requiredValidation</backend_model>
+                            <validate>validate-not-negative-number</validate>
+                        </itemtypeid>
+                        <language translate="label">
+                            <label>Language</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>yoochoose_jstracking/field_language</frontend_model>
+                            <source_model>yoochoose_jstracking/system_config_source_languages</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </language>
+                        <language_country>
+                            <comment><![CDATA[Include the country code into the language.]]></comment>
+                            <sort_order>65</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <source_model>yoochoose_jstracking/system_config_source_languages::useCountryCode</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </language_country>
+                    </fields>
+                </general>
+
+                <advanced>
+                    <label>Script Endpoint</label>
+                    <sort_order>6</sort_order>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <performance translate="label">
+                            <label>Performance</label>
+                            <comment><![CDATA[CDN mode provide better performance
+                            but takes about a 30 minutes, if the configuration is updated. 
+                            Please switch to CDN only, if the configuration is 
+                            done and stable.]]></comment>
+                            <sort_order>10</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <source_model>yoochoose_jstracking/system_config_source_renderSource</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </performance>
+                        <overwrite translate="label">
+                            <label>Overwrite Endpoint</label>
+                            <backend_model>yoochoose_jstracking/scriptValidation</backend_model> 
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[<span style="color: red; font-weight: bold;">Attention!
+                            </span> See the <a href="https://www.yoochoose.com/magento-connect-2-tutorial" 
+                            target="_blank">extension manual</a>, if you about to use this property.]]></comment>
+                        </overwrite>
+                    </fields>
+                </advanced>
+
+                <recommendation_blocks translate="label">
+                    <label>Product recommendation blocks</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <personal_display translate="label">
+                            <label>Home page. Personalized recommendations</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>yoochoose_jstracking/system_config_source_displayRecommendation</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </personal_display>
+                        <personal_title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </personal_title>
+
+                        <bestseller_display translate="label">
+                            <label>Home page. Bestsellers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>yoochoose_jstracking/system_config_source_displayRecommendation</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </bestseller_display>
+                        <bestseller_title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </bestseller_title>
+
+                        <related_display translate="label">
+                            <label>Product page. Related products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>yoochoose_jstracking/system_config_source_displayRecommendation</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </related_display>
+                        <related_title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </related_title>
+
+                        <upselling_display translate="label">
+                            <label>Product page. Up-selling block</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>yoochoose_jstracking/system_config_source_displayRecommendation</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </upselling_display>
+                        <upselling_title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </upselling_title>
+
+                        <category_page_display translate="label">
+                            <label>Category page. Recommendations</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>yoochoose_jstracking/system_config_source_displayRecommendation</source_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </category_page_display>
+                        <category_page_title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Wildchar % will be replaces with
+ the name of the current category, for example "SHIRTS". Wildchar %% will
+ be replaces with the current category path, for example "HOME / MEN / SHIRTS".
+]]></comment>
+                        </category_page_title>
+
+                        <crossselling_display translate="label">
+                            <label>Shopping basket page. Cross-selling products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>yoochoose_jstracking/system_config_source_displayRecommendation</source_model>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </crossselling_display>
+                        <crossselling_title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </crossselling_title>
+
+                        <customization>
+                            <label>Yoochoose Extension Customization</label>
+                            <frontend_type>Button</frontend_type>
+                            <frontend_model>yoochoose_jstracking/field_customize</frontend_model>
+                            <sort_order>65</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[ In the Yoochoose dashboard you can specify the amount of the 
+recommendation for every block and customize the HTML template.]]></comment>
+                        </customization>
+                    </fields>
+                </recommendation_blocks>
+
+                <data_export>
+                    <label>Data Import Configuration</label>
+                    <comment><![CDATA[
+                            	After application consumer key and secret was generated, please 
+                                enter it into the magento plugin configuration in the Yoochoose 
+                                Configuration Backend.
+                                <p id="yc_adminConfigureMsg" style="display: none;"></p>]]></comment>
+                    <sort_order>80</sort_order>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <automatically translate="label">
+                            <label>Configure Permissions Automatically</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>yoochoose_jstracking/field_configureAuth</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </automatically>
+                        <consumer_name translate="label">
+                            <label>OAUTH Consumer Name</label>
+                            <sort_order>15</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>yoochoose_jstracking/field_readonly</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </consumer_name>
+                        <consumer_key translate="label">
+                            <label>OAUTH Consumer Key</label>
+                            <sort_order>25</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>yoochoose_jstracking/field_readonly</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </consumer_key>
+                        <consumer_secret translate="label">
+                            <label>OAUTH Consumer Secret</label>
+                            <sort_order>35</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>yoochoose_jstracking/field_readonly</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </consumer_secret>
+                        <rest_role translate="label">
+                            <label>REST Role</label>
+                            <sort_order>45</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>yoochoose_jstracking/field_readonly</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </rest_role>
+                    </fields>
+                </data_export>
+            </groups>
+        </yoochoose>
+    </sections>
+</config>

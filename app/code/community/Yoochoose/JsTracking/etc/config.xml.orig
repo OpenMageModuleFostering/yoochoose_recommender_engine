@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Yoochoose_JsTracking>
+            <version>2.0.0</version>
+        </Yoochoose_JsTracking>
+    </modules>
+    <global>
+        <models>
+            <yoochoose_jstracking>
+                <class>Yoochoose_JsTracking_Model</class>
+            </yoochoose_jstracking>
+            <adminhtml>
+                <rewrite>
+                    <search_catalog>Yoochoose_JsTracking_Model_Adminhtml_Search_Catalog</search_catalog>
+                </rewrite>
+            </adminhtml>
+        </models>
+        <helpers>
+            <yoochoose_jstracking>
+                <class>Yoochoose_JsTracking_Helper</class>
+            </yoochoose_jstracking>
+        </helpers>
+
+        <blocks>
+            <yoochoose_jstracking>
+                <class>Yoochoose_JsTracking_Block</class>
+            </yoochoose_jstracking>
+        </blocks>
+    </global>
+    <frontend>
+        <routers>
+            <yoochoose>
+                <use>standard</use>
+                <args>
+                    <module>Yoochoose_JsTracking</module>
+                    <frontName>yoochoose</frontName>
+                </args>
+            </yoochoose>
+            <catalogsearch>
+                <args>
+                    <modules>
+                        <Yoochoose_JsTracking before="Mage_CatalogSearch">Yoochoose_JsTracking</Yoochoose_JsTracking>
+                    </modules>
+                </args>
+            </catalogsearch>
+        </routers>
+        <events>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <checkout_finish>
+                        <type>singleton</type>
+                        <class>Yoochoose_JsTracking_Model_Observer</class>
+                        <method>trackBuy</method>
+                    </checkout_finish>
+                </observers>
+            </checkout_onepage_controller_success_action>
+            <controller_action_layout_render_before_catalogsearch_result_index>
+                <observers>
+                    <stackexchange_catalogsearch>
+                        <type>singleton</type>
+                        <class>Yoochoose_JsTracking_Model_Observer</class>
+                        <method>filterParameters</method>
+                    </stackexchange_catalogsearch>
+                </observers>
+            </controller_action_layout_render_before_catalogsearch_result_index>
+        </events>
+        <layout>
+            <updates>
+                <yoochoose_jstracking module="Yoochoose_JsTracking">
+                    <file>yoochoose_jstracking.xml</file>
+                </yoochoose_jstracking>
+            </updates>
+        </layout>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <yoochoose after="Mage_Adminhtml">Yoochoose_JsTracking</yoochoose>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <events>
+            <admin_system_config_changed_section_yoochoose>
+                <observers>
+                    <yoochoose>
+                        <type>singleton</type>
+                        <class>Yoochoose_JsTracking_Model_Observer</class>
+                        <method>adminSystemConfigChangedSectionYoochoose</method>
+                    </yoochoose>
+                </observers>
+            </admin_system_config_changed_section_yoochoose>
+        </events>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <yoochoose>
+                                            <title>Yoochoose</title>
+                                        </yoochoose>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <default>
+        <yoochoose>
+            <general>
+                <itemtypeid>1</itemtypeid>
+                <language_country>1</language_country>
+            </general>
+            <recommendation_blocks>
+                <personal_title>Recommendations for You</personal_title>
+                <bestseller_title>Bestsellers</bestseller_title>
+                <related_title>Related products</related_title>
+                <upselling_title>You may also be interested in the following products</upselling_title>
+                <category_page_title>Recommendation in %</category_page_title>
+                <crossselling_title>You may also be interested in the following products</crossselling_title>
+            </recommendation_blocks>
+        </yoochoose>
+    </default>
+</config>

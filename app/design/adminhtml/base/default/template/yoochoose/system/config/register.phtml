@@ -1,0 +1,30 @@
+<?php
+/**
+ * @category    Yoochoose
+ * @package     Yoochoose-JSTracking
+ * @copyright   Copyright (c) 2015 Yoochoose GmbH. (http://www.yoochoose.net)
+ */
+?>
+<script type="text/javascript">
+    function yc_register() {
+        var form = document.createElement("form"),
+                input = document.createElement("input"),
+                object = <?php echo $this->getYoochooseRegistration(); ?>;
+
+        form.method = "post";
+        form.action = "<?php echo $this->getYoochooseLink(); ?>";
+        form.target = "_blank";
+
+        for (var property in object) {
+            if (object.hasOwnProperty(property)) {
+                input.setAttribute('name', property);
+                input.setAttribute('value', object[property]);
+                form.appendChild(input.cloneNode(true));
+            }
+        }
+
+        form.submit();
+    }
+</script>
+
+<?php echo $this->getButtonHtml() ?> 

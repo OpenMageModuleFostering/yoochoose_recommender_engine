@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<config>
+    <api2>
+        <resource_groups>
+            <yoochoose translate="title" module="Yoochoose_JsTracking">
+                <title>Yoochoose</title>
+                <sort_order>5</sort_order>
+            </yoochoose>
+        </resource_groups>
+         <resources>
+            <ycsubscriber translate="title" module="api2">
+                <group>yoochoose</group>
+                <sort_order>10</sort_order>
+                <model>yoochoose_jstracking/api2_yCSubscriber</model>
+                <title>Subscribers</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                    </admin>
+                </privileges>
+                <attributes translate="subscribers" module="api2">
+                    <subscribers>Subscribers</subscribers>
+                </attributes>
+                <routes>
+                    <route_collection>
+                        <route>/yoochoose/customers</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
+                </routes>
+                <versions>1</versions>
+            </ycsubscriber>
+            <ycproducts translate="title" module="api2">
+                <group>yoochoose</group>
+                <sort_order>10</sort_order>
+                <model>yoochoose_jstracking/api2_yCProducts</model>
+                <title>Products</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                    </admin>
+                </privileges>
+                <attributes translate="products" module="api2">
+                    <products>Products</products>
+                </attributes>
+                <routes>
+                    <route_collection>
+                        <route>/yoochoose/products</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
+                </routes>
+                <versions>1</versions>
+            </ycproducts>
+            <ycstoreview translate="title" module="api2">
+                <group>yoochoose</group>
+                <sort_order>10</sort_order>
+                <model>yoochoose_jstracking/api2_yCStoreView</model>
+                <title>Store Views</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                    </admin>
+                </privileges>
+                <attributes translate="views" module="api2">
+                    <views>Store Views</views>
+                </attributes>
+                <routes>
+                    <route_collection>
+                        <route>/yoochoose/storeviews</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
+                </routes>
+                <versions>1</versions>
+            </ycstoreview>
+            <yccategory translate="title" module="api2">
+                <group>yoochoose</group>
+                <sort_order>10</sort_order>
+                <model>yoochoose_jstracking/api2_yCCategory</model>
+                <title>Categories</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                    </admin>
+                </privileges>
+                <attributes translate="categories" module="api2">
+                    <categories>Categories</categories>
+                </attributes>
+                <routes>
+                    <route_collection>
+                        <route>/yoochoose/categories</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
+                </routes>
+                <versions>1</versions>
+            </yccategory>
+         </resources>
+    </api2>
+</config>
