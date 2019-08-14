@@ -6,38 +6,33 @@
  * @author     Andreas von Studnitz <avs@avs-webentwicklung.de>
  */
 
-class AvS_Yoochoose_Model_Api_Recommendation_Related extends AvS_Yoochoose_Model_Api_Recommendation
-{
-    /**
-     * Gets configured maximum number of recommended products
-     *
-     * @return int
-     */
-    public function getMaxNumberProducts()
-    {
-        $maxNumberProducts = intval(Mage::getStoreConfig('yoochoose/related/max_count'));
+class AvS_Yoochoose_Model_Api_Recommendation_Related extends AvS_Yoochoose_Model_Api_Recommendation {
 
-        if ($maxNumberProducts > 0) {
-            return $maxNumberProducts;
-        } else {
-            return parent::getMaxNumberProducts();
-        }
+	/**
+     * Gets configured maximum number of recommended products
+     */
+    public function getRowCount() {
+        return Mage::getStoreConfig('yoochoose/related/row_count');
+    }
+    
+    public function getScenario() {
+    	return Mage::getStoreConfig('yoochoose/related/scenario');
+    }
+    
+    
+    protected function getContext() {
+        $product = Mage::registry('product');
+        return array($product->getId());
     }
 
-    /**
-     * Generate Parameters for Recommendation URL
-     *
-     * @param int $maxCount
-     * @return array
-     */
-    protected function _getRecommendationUrlParams($maxCount)
-    {
-        $product = Mage::registry('product');
-
-        return array(
-            'itemId' => $product->getId(),
-            'categoryPath'  => $this->_getCategoryPath(),
-            'recnum' => min(10, $maxCount),
-        );
+    
+    public function getManualItems() {
+    	$product = Mage::registry('product');
+    	if ($product) {
+    		$result = $this->loadProducts($product->getRelatedProductIds());
+    		return $result;
+    	} else {
+    		return array();
+    	}
     }
 }

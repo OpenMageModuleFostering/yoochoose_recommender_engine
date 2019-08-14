@@ -6,38 +6,35 @@
  * @author     Andreas von Studnitz <avs@avs-webentwicklung.de>
  */
 
-class AvS_Yoochoose_Model_Api_Recommendation_Upselling extends AvS_Yoochoose_Model_Api_Recommendation
-{
+class AvS_Yoochoose_Model_Api_Recommendation_Upselling extends AvS_Yoochoose_Model_Api_Recommendation {
+	
     /**
      * Gets configured maximum number of recommended products
-     *
-     * @return int
      */
-    public function getMaxNumberProducts()
-    {
-        $maxNumberProducts = intval(Mage::getStoreConfig('yoochoose/upselling/max_count'));
+    public function getRowCount() {
+        return Mage::getStoreConfig('yoochoose/upselling/row_count');
+    }
 
-        if ($maxNumberProducts > 0) {
-            return $maxNumberProducts;
-        } else {
-            return parent::getMaxNumberProducts();
-        }
+    
+    public function getScenario() {
+    	return Mage::getStoreConfig('yoochoose/upselling/scenario');
     }
     
-    /**
-     * Generate Parameters for Recommendation URL
-     *
-     * @param int $maxCount
-     * @return array
-     */
-    protected function _getRecommendationUrlParams($maxCount)
-    {
+    
+    protected function getContext() {
         $product = Mage::registry('product');
-
-        return array(
-            'itemId' => $product->getId(),
-            'categoryPath'  => $this->_getCategoryPath(),
-            'recnum' => min(10, $maxCount),
-        );
+        return array($product->getId());
     }
+    
+    
+    public function getManualItems() {
+    	$product = Mage::registry('product');
+    	if ($product) {
+    		$result = $this->loadProducts($product->getUpSellProductIds());
+    		return $result;
+    	} else {
+    		return array();
+    	}
+    }
+
 } 

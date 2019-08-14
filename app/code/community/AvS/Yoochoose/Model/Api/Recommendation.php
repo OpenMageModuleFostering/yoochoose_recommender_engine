@@ -6,14 +6,13 @@
  * @author     Andreas von Studnitz <avs@avs-webentwicklung.de>
  */
 
-class AvS_Yoochoose_Model_Api_Recommendation extends AvS_Yoochoose_Model_Api
-{
-    const SCENARIO_CROSS_SELLING     = 'cross_selling';
-    const SCENARIO_RELATED_PRODUCTS   = 'related_products';
-    const SCENARIO_UP_SELLING      = 'up_selling';
-
-    protected $_recommendedProductIds   = array();
-    protected $_numberProducts = 10;
+abstract class AvS_Yoochoose_Model_Api_Recommendation extends AvS_Yoochoose_Model_Api {
+	
+    const SCENARIO_CROSS_SELLING    = 'cross_selling';
+    const SCENARIO_RELATED_PRODUCTS = 'related_products';
+    const SCENARIO_UP_SELLING       = 'up_selling';
+    
+    
 
     /**
      * Get Product Recommendations based on Client Id and License Key
@@ -21,25 +20,57 @@ class AvS_Yoochoose_Model_Api_Recommendation extends AvS_Yoochoose_Model_Api
      * @param int $maxCount
      * @return array
      */
-    public function getRecommendedProducts($scenario, $maxCount = 10)
-    {
+    public function getRecommendedProducts($columns) {
+    	
+    	$scenario = $this->getScenario();
+    	$maxCount = $this->getMaxNumberProducts($columns);
 
         $url = $this->_getRecommendationBaseUrl($scenario);
-        $params = $this->_getRecommendationUrlParams($maxCount);
+        
+        $context = $this->getContext();
+        $cat = $this->_getCategoryPath();
+        
+        $params = array();
+        
+        if ($context && ! empty($context)) {
+        	$params['contextitems'] = implode(',',  $context);
+        }
+        
+        if ($cat) {
+        	$params['categorypath'] = $cat;
+        } else if ($context && count($context) == 1 && is_numeric($context[0])) { // for just followed items
+        	$params['useitemcategories'] = 'true';
+        }
 
+        $params['recnum'] = $maxCount * 2;
+ 
         try {
+        	$a = microtime(true);
+        	
             $rawResponse = Mage::helper('yoochoose')->_getHttpPage($url, $params);
+            
+            $b = microtime(true);
+            
             $response = Zend_Json::decode($rawResponse);
 
-            return $this->_getRecommendedProductsArray($response);
-        }
-        catch(Exception $e) {
-
-            Mage::logException($e);
+            $result = $this->_getRecommendedProductsArray($response);
+            
+            $c = microtime(true);
+            
+            $t1 = number_format($b - $a, 3, '.', '');
+            $t2 = number_format($c - $b, 3, '.', '');
+            
+            Mage::log("Reco-Request successful. Scenario: [$scenario]; Amount: ".count($result)."; HTTP-Time: $t1; SQL-Time: $t2.", Zend_Log::DEBUG, 'yoochoose.log');
+            
+            return $result;
+		} catch(Exception $e) {
+            Mage::logException($e); // systemlog here. yoochoose.log was appended in the helper above.
             // authentication failed
             return array();
         }
     }
+    
+
 
     /**
      * Transform Response Array to Array of Products
@@ -47,26 +78,72 @@ class AvS_Yoochoose_Model_Api_Recommendation extends AvS_Yoochoose_Model_Api
      * @param array $response
      * @return array
      */
-    protected function _getRecommendedProductsArray($response)
-    {
+    protected function _getRecommendedProductsArray($response) {
+    	
         $responseArray = $response['recommendationResponseList'];
-        $responseArray = Mage::helper('yoochoose')->getArraySortedBySubkey($responseArray, 'relevance');
 
         $recommendedProductsArray = array();
-        foreach($responseArray as $singleRecommendation) {
-
-            if ($singleRecommendation['itemType'] == 1) {
-
-                $product = Mage::getModel('catalog/product')->load($singleRecommendation['itemId']);
-                if ($product->getId()) {
-
-                    $recommendedProductsArray[] = $product;
-                }
-            }
+        
+        $ids = array();
+        
+        foreach($responseArray as $reco) {
+        	 $ids[] = $reco['itemId'];
         }
-
-        return $recommendedProductsArray;
+        
+        return empty($ids) ? array() : $this->loadProducts($ids);
     }
+    
+    
+    protected function loadProducts($ids) {
+    	if (empty($ids)) {
+    		return array();
+    	}
+                
+		$productCollection = 
+				Mage::getModel('catalog/product')->
+				getCollection()->
+				addAttributeToSelect('name')->
+				addAttributeToSelect('small_image')->
+				addAttributeToSelect('visibility')->
+				addAttributeToSelect('rating_summary')->
+				addFinalPrice()->
+				addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED))->
+				addAttributeToFilter('entity_id', array('in' => $ids))->
+				load();
+				
+		$result = array();
+		
+		$products = $productCollection->getItems();
+		
+		foreach($ids as $id) {
+			$p = $this->findProduct($products, $id);
+			if ($p) {
+				$result[] = $p;
+			} else {
+				Mage::log(
+					'Recommended product ['.$id.'] was not found (out of stock?) in the product collection. Skipping...',
+					Zend_Log::NOTICE, 'yoochoose.log');
+			}
+		}
+		
+		Mage::log('Requested products ['.implode(",", $ids).']. Found '.count($result).' products.', Zend_Log::DEBUG, 'yoochoose.log');			
+
+        return $result;
+    }
+    
+    
+    /** Searchs the magento product by the specified EntityId.
+     *  Returns null if not found.
+     */
+    public function findProduct($products, $id) {
+    	foreach ($products as $product) {
+    		if ($product->getEntityId() == $id) {
+    			return $product;
+    		}
+    	}
+    	return null;
+    }
+    
 
     /**
      * Generate Base Url for Recommendation Request
@@ -74,34 +151,27 @@ class AvS_Yoochoose_Model_Api_Recommendation extends AvS_Yoochoose_Model_Api
      * @param string $scenario
      * @return string
      */
-    protected function _getRecommendationBaseUrl($scenario)
-    {
-        $url = self::YOOCHOOSE_RECOMMENDATION_URL;
-        $path = array(
-            self::PRODUCT_ID,
-            self::EVENT_TYPE_RECOMMENDATION,
-            Mage::getStoreConfig('yoochoose/api/client_id'),
-            $this->_getUserId(),
-            $scenario . '.json',
-        );
+    protected function _getRecommendationBaseUrl($scenario) {
+		
+        $url = Mage::getStoreConfig('yoochoose/api/reco_server');
+        $url = rtrim($url, "/");
+        
+        $mnd = Mage::getStoreConfig('yoochoose/api/client_id');
+        $user = $this->_getUserId();
 
-        return $url . implode('/', $path);
+        return $url.'/api/'.$mnd.'/'.urlencode($user)."/".urlencode($scenario).'.json';
     }
 
+    
     /**
-     * Generate Parameters for Recommendation URL
-     *
-     * @param int $maxCount
-     * @return array
+     * Generate context for recommendations.
+     * Returns an array of constants.
      */
-    protected function _getRecommendationUrlParams($maxCount)
-    {
-        return array(
-            'categoryPath'  => $this->_getCategoryPath(),
-            'recnum' => min(10, $maxCount),
-        );
+    protected function getContext() {
+        return array();
     } 
 
+    
     /**
      * Merge two array of products; don't add duplicates
      *
@@ -109,55 +179,60 @@ class AvS_Yoochoose_Model_Api_Recommendation extends AvS_Yoochoose_Model_Api
      * @param array $itemArray2
      * @return array
      */
-    public function mergeItemArrays($itemArray1, $itemArray2)
-    {
+    public function mergeItemArrays($itemArray1, $itemArray2, $columns) {
         foreach($itemArray2 as $item) {
-
-            if (!in_array($item->getId(), $this->_recommendedProductIds)) {
-
+        	if ( ! $this->findProduct($itemArray1, $item->getEntityId())) {
                 $itemArray1[] = $item;
-                
-                if (count($itemArray1) >= $this->getMaxNumberProducts()) {
+                if (count($itemArray1) >= $this->getMaxNumberProducts($columns)) {
                     break;
                 }
             }
         }
-
         return $itemArray1;
     }
 
+    
     /**
      * Gets configured maximum number of recommended products
      *
      * @return int
      */
-    public function getMaxNumberProducts()
-    {
-        return $this->_numberProducts;
-    }
+    abstract public function getRowCount();
+    
+    
+    public function getMaxNumberProducts($columns) {
+    	
+    	$rows = $this->getRowCount();
+    	
+    	if (is_numeric($rows)) {
 
-    /**
-     * Gets configured maximum number of recommended products
-     *
-     * @return int
-     */
-    public function setMaxNumberProducts($numberProducts)
-    {
-        $this->_numberProducts = $numberProducts;
+            return $columns * $rows; // intval($maxNumberProducts);
+        } else {
+        	$scenario = $this->getScenario();
+        	$default = 3;
+        	Mage::log("Invalid rownum [$rows] for scenario [$scenario]. Using default value [$default]...", Zend_Log::WARN, 'yoochoose.log');
+        	
+            return $default; // some default value
+        }
     }
+    
+    
+    abstract public function getScenario();
+    
+    
+    abstract public function getManualItems();
+    
 
     /**
      * Converts item collection to array
      *
      * @return array
      */
-    public function getArrayFromItemCollection($itemCollection)
-    {
+    public function getArrayFromItemCollection($itemCollection) {
         $itemArray = array();
+        
         foreach($itemCollection as $item) {
-
             $itemArray[] = $item;
-            $this->_recommendedProductIds[] = $item->getId();
         }
 
         return $itemArray;

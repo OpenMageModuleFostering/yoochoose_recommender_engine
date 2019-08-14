@@ -20,8 +20,8 @@
                 <?php $_item=$itemArray[$i] ?>
                 <?php $i++ ?>
             <td>
-                <a href="<?php echo Mage::helper('yoochoose')->getProductUrl($_item) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
-                <h3 class="product-name"><a href="<?php echo Mage::helper('yoochoose')->getProductUrl($_item) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h3>
+                <a href="<?php echo $this->getProductUrl($_item) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
+                <h3 class="product-name"><a href="<?php echo $this->getProductUrl($_item) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h3>
                 <?php echo $this->getPriceHtml($_item, true, '-upsell') ?>
                 <?php echo $this->getReviewsSummaryHtml($_item) ?>
             </td>
@@ -33,5 +33,10 @@
     <?php endfor; ?>
     </table>
     <script type="text/javascript">decorateTable('upsell-product-table')</script>
+
+	<?php $reurl = $this->generateRenderPixelUrl(); if($reurl): ?>
+		<img src="<?php echo $reurl ?>" alt="Yoochoose Tracking" width="0" height="0" />
+	<?php endif; ?>
+
 </div>
 <?php endif ?>

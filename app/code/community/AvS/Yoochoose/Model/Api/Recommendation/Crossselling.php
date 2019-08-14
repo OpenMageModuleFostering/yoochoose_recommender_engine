@@ -6,59 +6,81 @@
  * @author     Andreas von Studnitz <avs@avs-webentwicklung.de>
  */
 
-class AvS_Yoochoose_Model_Api_Recommendation_Crossselling extends AvS_Yoochoose_Model_Api_Recommendation
-{
+class AvS_Yoochoose_Model_Api_Recommendation_Crossselling extends AvS_Yoochoose_Model_Api_Recommendation {
+	
     protected $_cartProductIds = array();
 
+    // manual collection
+    protected $_itemCollection = false;
+    
+    
     /**
      * Gets configured maximum number of recommended products
-     *
-     * @return int
      */
-    public function getMaxNumberProducts()
-    {
-        $maxNumberProducts = intval(Mage::getStoreConfig('yoochoose/crossselling/max_count'));
-
-        if ($maxNumberProducts > 0) {
-            return $maxNumberProducts;
-        } else {
-            return parent::getMaxNumberProducts();
-        }
+    public function getRowCount() {
+        return Mage::getStoreConfig('yoochoose/crossselling/row_count');
+    }
+    
+    
+    public function getScenario() {
+    	return Mage::getStoreConfig('yoochoose/crossselling/scenario');
     }
 
-    /**
-     * Generate Parameters for Recommendation URL
-     *
-     * @param int $maxCount
-     * @return array
-     */
-    protected function _getRecommendationUrlParams($maxCount)
-    {
+ 
+    protected function getContext() {
         $cartProductIds = $this->_getCartProductIds();
-
-        return array(
-            'contextItems' => implode(',',  $cartProductIds),
-            'recnum' => min(10, $maxCount),
-        );
+        return $cartProductIds;
     }
+    
+    
+    public function getManualItems() {
+    	
+        if ($this->_itemCollection === false) {
+	    	$productIds = $this->_getCartProductIds();
+	    	
+	    	if (! empty($productIds)) {
+		    	
+		    	$link = Mage::getSingleton('catalog/product_link')
+					->useCrossSellLinks();            // very important, this sets the linkTypeId to 5
+					
+				$collection = $link->getProductCollection()
+					->addProductFilter($productIds)
+					->addExcludeProductFilter($productIds)
+					->addAttributeToSelect(array('name', 'url_key', 'url_path'));
+			
+				$ids = array();
+					
+				foreach ($collection as $cp) {
+					$ids[] = $cp->getId();
+				}
+				
+				$result = $this->loadProducts($ids);
+		        
+		        $this->_itemCollection = $result;
+	    	} else {
+	    		$this->_itemCollection = array();
+	    	}
+        }
+	        
+        return $this->_itemCollection;
+
+    }
+    
 
     /**
      * Get all Product Ids of customer cart
      *
      * @return array
      */
-    protected function _getCartProductIds()
-    {
+    protected function _getCartProductIds() {
+    	
         if (empty($this->_cartProductIds)) {
 
-            /** @var $checkoutSession Mage_Checkout_Model_Session */
             $checkoutSession = Mage::getSingleton('checkout/session');
             $cartItems = $checkoutSession->getQuote()->getAllItems();
 
             foreach($cartItems as $item) {
-
                 if ($item->getParentItem()) {
-
                     continue;
                 }
 
@@ -69,27 +91,4 @@ class AvS_Yoochoose_Model_Api_Recommendation_Crossselling extends AvS_Yoochoose_
         return $this->_cartProductIds;
     }
 
-    /**
-     * Merge two array of products; don't add duplicates
-     *
-     * @param array $itemArray1
-     * @param array $itemArray2
-     * @return array
-     */
-    public function mergeItemArrays($itemArray1, $itemArray2)
-    {
-        foreach($itemArray2 as $item) {
-
-            if (!in_array($item->getId(), $this->_recommendedProductIds) && !in_array($item->getId(), $this->_getCartProductIds())) {
-
-                $itemArray1[] = $item;
-                
-                if (count($itemArray1) >= $this->getMaxNumberProducts()) {
-                    break;
-                }
-            }
-        }
-
-        return $itemArray1;
-    }
 } 

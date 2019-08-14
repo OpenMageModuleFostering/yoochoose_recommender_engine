@@ -6,10 +6,9 @@
  * @author     Andreas von Studnitz <avs@avs-webentwicklung.de>
  */
 
-class AvS_Yoochoose_Model_Observer
-{
-    const YOOCHOOSE_LICENSE_URL = 'https://admin.yoochoose.net/ebl/%customer_id%/license.json';
-    const YOOCHOOSE_SUMMARY_URL = 'https://admin.yoochoose.net/rest/%customer_id%/counter/summary.json';
+class AvS_Yoochoose_Model_Observer {
+	
+    const YOOCHOOSE_LICENSE_URL = 'https://admin.yoochoose.net/api/%customer_id%/license.json';
 
     /**
      * Update field "yoochoose_user_id" from session to
@@ -34,9 +33,21 @@ class AvS_Yoochoose_Model_Observer
 
         if (!$clientId && !$licenseKey) return;
 
-        $licenseType = $this->_getLicenseType($clientId, $licenseKey);
+        try {
+       		$licenseType = $this->_getLicenseType();
 
-        $this->_displayMessage($licenseType);
+        	$this->_displayMessage($licenseType);
+        	
+        } catch(Exception $e) {
+        	Mage::log('Error getting license for ['.$clientId.']. Error code ['.$e->getCode().']', Zend_Log::ERR, 'yoochoose.log');
+        	Mage::logException($e);
+        	
+        	$licenseType = __('Error getting license [%s]', $e->getCode());
+        	
+            Mage::getSingleton('adminhtml/session')->addError(
+                Mage::helper('yoochoose')->__('License could not be verified.')
+            );        	
+        }        	
 
         if ($licenseType != Mage::getStoreConfig('yoochoose/api/license_type')) {
             $this->_setConfigData('yoochoose/api/license_type', $licenseType);
@@ -48,15 +59,10 @@ class AvS_Yoochoose_Model_Observer
      *
      * @param string $licenseType
      */
-    protected function _displayMessage($licenseType)
-    {
+    protected function _displayMessage($licenseType) {
         if ($licenseType && $licenseType != Mage::getStoreConfig('yoochoose/api/license_type')) {
             Mage::getSingleton('adminhtml/session')->addSuccess(
                 Mage::helper('yoochoose')->__('License successfully verified.')
-            );
-        } else if (!$licenseType) {
-            Mage::getSingleton('adminhtml/session')->addError(
-                Mage::helper('yoochoose')->__('License could not be verified.')
             );
         }
     }
@@ -68,134 +74,23 @@ class AvS_Yoochoose_Model_Observer
      * @param string $licenseKey
      * @return string
      */
-    protected function _getLicenseType($clientId, $licenseKey)
-    {
+    protected function _getLicenseType(){
+    	
+    	$clientId = Mage::getStoreConfig('yoochoose/api/client_id');
+    	 
+    	if ( ! $clientId) {
+    		return __("Client ID not set");
+    	}
+    	
+    	Mage::log('Requesting license for ['.$clientId.']...', Zend_Log::DEBUG, 'yoochoose.log');
+    	
         $url = str_replace('%customer_id%', $clientId, self::YOOCHOOSE_LICENSE_URL);
-        try {
-            $rawResponse = Mage::helper('yoochoose')->_getHttpsPage($url, $clientId, $licenseKey);
-            $response = Zend_Json::decode($rawResponse);
-            return $response['license']['type'];
-        }
-        catch(Exception $e) {
-
-            // authentication failed
-            return '';
-        }
-    }
-
-    public function updateStats()
-    {
-        $clientId = Mage::getStoreConfig('yoochoose/api/client_id');
-        $licenseKey = Mage::getStoreConfig('yoochoose/api/license_key');
-
-        if (!$clientId && !$licenseKey) return;
-
-        $stats = $this->_getStats($clientId, $licenseKey);
-
-        $statsHtml = $this->_generateStatsHtml($stats);
-        if ($statsHtml) {
-            $this->_setConfigData('yoochoose/general/stats', $statsHtml);
-        }
-
-        return $statsHtml;
-    }
-
-    /**
-     * Get Statistics bases on Client Id and License Key
-     *
-     * @param string $clientId
-     * @param string $licenseKey
-     * @return array
-     */
-    protected function _getStats($clientId, $licenseKey)
-    {
-        $url = str_replace('%customer_id%', $clientId, self::YOOCHOOSE_SUMMARY_URL);
-        try {
-            $rawResponse = Mage::helper('yoochoose')->_getHttpsPage($url, $clientId, $licenseKey);
-            $response = Zend_Json::decode($rawResponse);
-            return $response;
-        }
-        catch(Exception $e) {
-
-            // authentication failed
-            return array();
-        }
-    }
-
-    /**
-     * Generate Statistics HTML for display in configuration
-     *
-     * @param array $stats
-     * @return string
-     */
-    protected function _generateStatsHtml($stats)
-    {
-	
-        $statsHtml = '<table>';
-        $statsLines = array();
-        $baseSorting = 6;
         
-        foreach($stats as $key => $singleStat) {
-
-            switch ($key) {
-
-                case 'EVENT_1':
-
-                    $label = Mage::helper('yoochoose')->__('Registered Clicks');
-                    $sorting = 0;
-                    break;
-
-                case 'EVENT_2':
-
-                    $label = Mage::helper('yoochoose')->__('Registered Buys');
-                    $sorting = 1;
-                    break;
-
-                case 'RECO_related_products':
-
-                    $label = Mage::helper('yoochoose')->__('"Related products" recommendations');
-                    $sorting = 3;
-                    break;
-
-                case 'RECO_cross_selling':
-
-                    $label = Mage::helper('yoochoose')->__('"Cross selling" recommendations');
-                    $sorting = 4;
-                    break;
-
-                case 'RECO_up_selling':
-
-                    $label = Mage::helper('yoochoose')->__('"Up selling" recommendations');
-                    $sorting = 5;
-                    break;
-
-                case 'DELIVERED_RECOS_related_products':
-                case 'DELIVERED_RECOS_cross_selling':
-                case 'DELIVERED_RECOS_up_selling':
-
-                    continue;
-
-                default:
-
-                    $label = $key;
-                    $sorting = $baseSorting;
-                    $baseSorting++;
-                    break;
-            }
-
-            $statsLines[$sorting] = '<tr><td>' . $label . ':&nbsp;</td><td>' . $singleStat['count'] . '</td></tr>';
-        }
-
-        $statsLines[2] = '<tr><td>----------</td><td>&nbsp;</td></tr>';
-
-        ksort($statsLines);
-        $statsHtml .= implode("\n", $statsLines);
-
-        $statsHtml .= '</table>';
-
-       return $statsHtml;
-	
+        $rawResponse = Mage::helper('yoochoose')->_getHttpPage($url);
+        $response = Zend_Json::decode($rawResponse);
+        return $response['license']['type'];
     }
+
 
     protected function _setConfigData($configPath, $value)
     {

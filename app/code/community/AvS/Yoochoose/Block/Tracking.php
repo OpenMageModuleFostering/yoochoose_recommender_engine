@@ -5,9 +5,8 @@
  * @package    AvS_Yoochoose
  * @author     Andreas von Studnitz <avs@avs-webentwicklung.de>
  */
-
-class AvS_Yoochoose_Block_Tracking extends Mage_Core_Block_Template
-{
+class AvS_Yoochoose_Block_Tracking extends Mage_Core_Block_Template {
+	
     /**
      * Request object
      *
@@ -20,32 +19,26 @@ class AvS_Yoochoose_Block_Tracking extends Mage_Core_Block_Template
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->_request = Mage::app()->getRequest();
     }
 
+    
     /**
      * Generate Yoochoose Tracking Pixel(s) Data depending on request
      * 
      * @return array
      */
-    public function getTrackingPixelData()
-    {
+    public function getTrackingPixelData() {
         if (!is_array($this->_trackingPixelData)) {
 
             $this->_trackingPixelData = array();
 
             switch($this->_getFullActionName()) {
 
-                case 'catalog_category_view':
-
-                    $this->_trackingPixelData = Mage::getSingleton('yoochoose/api_event')->getCategoryViewTrackingPixelData();
-                    break;
-
                 case 'catalog_product_view':
 
-                    $isRecommended = $this->_isRecommended();
+                    $isRecommended = $this->_getRequest()->getParam('recommended');
                     $this->_trackingPixelData = Mage::getSingleton('yoochoose/api_event')->getProductViewTrackingPixelData($isRecommended);
                     break;
 
@@ -55,31 +48,22 @@ class AvS_Yoochoose_Block_Tracking extends Mage_Core_Block_Template
                     $this->_trackingPixelData = Mage::getSingleton('yoochoose/api_event')->getCheckoutSuccessTrackingPixelData();
                     break;
             }
-
-            if (is_array(Mage::getSingleton('customer/session')->getTransferEventInfo())) {
-
-                $this->_trackingPixelData[] = Mage::getSingleton('yoochoose/api_event')->getTransferTrackingPixelData();
-            }
         }
 
         return $this->_trackingPixelData;
     }
 
-    protected function _isRecommended() {
-
-        return $this->_getRequest()->getParam('recommended') == 1;
-    }
 
     /**
-     * Generate Url from given Params and Generic Data
+     * Generate URL from given Params and Generic Data
      *
      * @param array $trackingPixelData
      * @return string
      */
-    public function generateTrackingPixelUrl($trackingPixelData)
-    {
+    public function generateTrackingPixelUrl($trackingPixelData) {
         return Mage::getSingleton('yoochoose/api_event')->generateTrackingPixelUrl($trackingPixelData);
     }
+    
 
     /**
      * Retrieve full bane of current action current controller and

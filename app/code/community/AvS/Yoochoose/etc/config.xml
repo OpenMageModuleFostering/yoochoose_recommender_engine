@@ -9,18 +9,6 @@
 
     <global>
 
-		<resources>
-			<yoochoose_setup>
-				<setup>
-					<module>AvS_Yoochoose</module>
-					<class>Mage_Customer_Model_Entity_Setup</class>
-				</setup>
-				<connection>
-					<use>core_setup</use>
-				</connection>
-			</yoochoose_setup>
-        </resources>
-
         <models>
             <yoochoose>
                 <class>AvS_Yoochoose_Model</class>
@@ -150,20 +138,36 @@
                 <display_yoochoose_recommendations>1</display_yoochoose_recommendations>
                 <scenario>cross_selling</scenario>
                 <prefer_manual_connections>0</prefer_manual_connections>
-                <max_count>3</max_count>
+                <row_count>4</row_count>
             </crossselling>
             <upselling>
                 <display_yoochoose_recommendations>1</display_yoochoose_recommendations>
                 <scenario>up_selling</scenario>
                 <prefer_manual_connections>0</prefer_manual_connections>
-                <max_count>3</max_count>
+                <row_count>1</row_count>
             </upselling>
             <related>
                 <display_yoochoose_recommendations>1</display_yoochoose_recommendations>
                 <scenario>related_products</scenario>
                 <prefer_manual_connections>0</prefer_manual_connections>
-                <max_count>3</max_count>
+                <row_count>6</row_count>
             </related>
+            <bestseller>
+                <display_yoochoose_recommendations>1</display_yoochoose_recommendations>
+                <scenario>bestseller</scenario>
+                <row_count>2</row_count>
+            </bestseller>
+            <personal>
+                <display_yoochoose_recommendations>1</display_yoochoose_recommendations>
+                <scenario>personal</scenario>
+                <row_count>2</row_count>
+            </personal>            
+            <api>
+            	<item_type>1</item_type>
+            	<tracker_server>https://event.yoochoose.net</tracker_server>
+            	<reco_server>https://reco.yoochoose.net</reco_server>
+            	<config_server>https://config.yoochoose.net</config_server>
+            </api>
         </yoochoose>
     </default>
 

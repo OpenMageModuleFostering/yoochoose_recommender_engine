@@ -6,51 +6,47 @@
  * @author     Andreas von Studnitz <avs@avs-webentwicklung.de>
  */
 
-class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api
-{
+class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api {
 
-    /**
-     * On Category View Page: Generate Tracking Pixel Data
-     *
-     * @return array
-     */
-    public function getCategoryViewTrackingPixelData() {
-
-        $category = Mage::registry('current_category');
-        $categoryId = $category->getId();
-
-        $trackingPixelData = array(
-            'ItemId'        => $categoryId,
-            'ItemTypeId'    => self::ITEM_TYPE_CATEGORY,
-            'CategoryPath'  => $this->_getCategoryPath(),
-            'Recommended'   => 0, // only products get recommended
-            'EventType'     => self::EVENT_TYPE_CLICK,
-        );
-
-        return array($trackingPixelData);
-    }
-
+	
     /**
      * On Product View Page: Generate Tracking Pixel Data
      *
      * @param boolean $isRecommended
      * @return array
      */
-    public function getProductViewTrackingPixelData($isRecommended = false) {
+    public function getProductViewTrackingPixelData($isRecommended = null) {
+    	
+    	$itemType = Mage::getStoreConfig('yoochoose/api/item_type');
 
         $product = Mage::registry('product');
         $productId = $product->getId();
+        
+        $result = array();
 
         $trackingPixelData = array(
             'ItemId'        => $productId,
-            'ItemTypeId'    => self::ITEM_TYPE_PRODUCT,
-            'CategoryPath'  => $this->_getCategoryPath(),
-            'Recommended'   => intval($isRecommended),
+            'ItemTypeId'    => $itemType,
             'EventType'     => self::EVENT_TYPE_CLICK,
+	        'categorypath'  => $this->_getCategoryPath()
         );
+        
+        $result[] = $trackingPixelData;
+        
+        if ($isRecommended) {
+	        $trackingPixelData = array(
+	            'ItemId'        => $productId,
+	            'ItemTypeId'    => $itemType,
+	            'EventType'     => self::EVENT_TYPE_FOLLOW,
+	       		'scenario'      => $isRecommended
+	        );
+	        
+	        $result[] = $trackingPixelData;
+        }
 
-        return array($trackingPixelData);
+        return $result;
     }
+    
 
     /**
      * On Checkout Success Page: Generate Tracking Pixel Data, one for each item
@@ -70,7 +66,6 @@ class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api
         foreach($items as $item) {
 
             if ($item->getParentItem()) {
-
                 continue;
             }
 
@@ -80,27 +75,7 @@ class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api
         return $trackingPixelData;
     }
 
-    /**
-     * After Login: Generate Tracking Pixel Data for switching UserIds
-     *
-     * @return array
-     */
-    public function getTransferTrackingPixelData() {
-
-        $transferInfoData = Mage::getSingleton('customer/session')->getTransferEventInfo();
-        if (!is_array($transferInfoData)) return array();
-
-        $trackingPixelData = array(
-            'EventType'     => self::EVENT_TYPE_TRANSFER,
-            'userId'        => $transferInfoData['old'],
-            'newUserId'     => $transferInfoData['new'],
-        );
-
-        Mage::getSingleton('customer/session')->unsetData('transfer_event_info');
-
-        return $trackingPixelData;
-    }
-
+    
     /**
      * Generate order item data for tracking pixel
      *
@@ -108,53 +83,57 @@ class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api
      * @param int $timestamp
      * @return array
      */
-    protected function _generateItemData($item, $timestamp)
-    {
+    protected function _generateItemData($item, $timestamp) {
+    	
+    	$itemType = Mage::getStoreConfig('yoochoose/api/item_type');
         $productId = $item->getProductId();
+        
+        $currency = $item->getOrder()->getBaseCurrency()->getCode();
 
         return array(
             'ItemId'        => $productId,
-            'ItemTypeId'    => self::ITEM_TYPE_PRODUCT,
-            'Quantity'      => intval($item->getQtyOrdered()),
-            'Price'         => intval($item->getBasePrice() * 100),
-            'Currency'      => $item->getOrder()->getBaseCurrency()->getCode(),
-            'Timestamp'     => $timestamp,
+            'ItemTypeId'    => $itemType,
             'EventType'     => self::EVENT_TYPE_BUY,
+            'quantity'      => intval($item->getQtyOrdered()),
+            'fullprice'     => intval($item->getBasePrice()).$currency
         );
     }
 
+    
     /**
      * Generate Url from given Params and Generic Data
      *
      * @param array $trackingPixelData
      * @return string
      */
-    public function generateTrackingPixelUrl($trackingPixelData)
-    {
-        $baseUrl = self::YOOCHOOSE_EVENT_URL;
+    public function generateTrackingPixelUrl($trackingPixelData) {
+    	
+    	$baseUrl = Mage::getStoreConfig('yoochoose/api/tracker_server');
+    	$baseUrl = rtrim($baseUrl, "/");
 
         $primaryParams = $this->_getPrimaryParamsString($trackingPixelData);
         $secondaryParams = $this->_getSecondaryParamsString($trackingPixelData);
 
-        $url = $baseUrl . $primaryParams . $secondaryParams;
+        $url = $baseUrl .'/api/'. $primaryParams . $secondaryParams;
+        
+        Mage::log("Generating tracking pixel: [$url]...", Zend_Log::DEBUG, 'yoochoose.log');
 
         return $url;
     }
 
+    
     /**
      * Generate String of primary params (as directories, divided by slash
      *
      * @param array $trackingPixelData
      * @return string
      */
-    protected function _getPrimaryParamsString($trackingPixelData)
-    {
-        $productId = self::PRODUCT_ID;
+    protected function _getPrimaryParamsString($trackingPixelData) {
+    	
         $clientId = Mage::getStoreConfig('yoochoose/api/client_id');
         $eventType = $trackingPixelData['EventType'];
         
         $primaryAttributesArray = array(
-            $productId,
             $clientId,
             $eventType,
         );
@@ -169,20 +148,12 @@ class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api
             $primaryAttributesArray[] = $itemType;
             $primaryAttributesArray[] = $itemId;
         }
-        
-        if (isset($trackingPixelData['userId']) && isset($trackingPixelData['newUserId'])) {
-
-            $userId = $trackingPixelData['userId'];
-            $newUserId = $trackingPixelData['newUserId'];
-
-            $primaryAttributesArray[] = $userId;
-            $primaryAttributesArray[] = $newUserId;
-        }
 
         $primaryAttributes = implode('/', $primaryAttributesArray);
 
         return $primaryAttributes;
     }
+    
 
     /**
      * Generate String of secondary params (as default http params)
@@ -190,27 +161,24 @@ class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api
      * @param array $trackingPixelData
      * @return string
      */
-    protected function _getSecondaryParamsString($trackingPixelData)
-    {
+    protected function _getSecondaryParamsString($trackingPixelData) {
+    	
         $secondaryParams = $this->_getSecondaryParams($trackingPixelData);
-        if (empty($secondaryParams)) {
 
-            return '';
-        }
-
-        $secondaryParamsString = '?';
-        $i = 0;
+        $params = array();
+        
         foreach($secondaryParams as $key => $value) {
-
-            if ($i > 0) {
-                $secondaryParamsString .= '&';
-            }
-            $secondaryParamsString .= $key . '=' . urlencode($value);
-            $i++;
+			if ($value !== '') {
+	            $params[$key] = $value;
+			}
         }
-
-        return $secondaryParamsString;
+		if (empty($params)) {
+			return '';
+		} else {
+        	return '?'.http_build_query($params);
+		}
     }
+    
 
     /**
      * Extract secondary params from all params; they are all params which have
@@ -219,8 +187,7 @@ class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api
      * @param array $trackingPixelData
      * @return array
      */
-    protected function _getSecondaryParams($trackingPixelData)
-    {
+    protected function _getSecondaryParams($trackingPixelData) {
         unset($trackingPixelData['EventType']);
         unset($trackingPixelData['ItemTypeId']);
         unset($trackingPixelData['ItemId']);

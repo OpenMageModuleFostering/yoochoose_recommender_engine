@@ -5,9 +5,10 @@
  * @package    AvS_Yoochoose
  * @author     Andreas von Studnitz <avs@avs-webentwicklung.de>
  */
-class AvS_Yoochoose_Block_Related extends AvS_Yoochoose_Block_Recoabstract {
+
+class AvS_Yoochoose_Block_Personal extends AvS_Yoochoose_Block_Recoabstract {
+    
 	
-        
     protected function isPreferManual() {
     	return $this->display() == 2 || $this->display() == 3;
     }
@@ -19,17 +20,12 @@ class AvS_Yoochoose_Block_Related extends AvS_Yoochoose_Block_Recoabstract {
     
     
     private function display() {
-    	return Mage::getStoreConfig('yoochoose/related/display_yoochoose_recommendations');
+    	return Mage::getStoreConfig('yoochoose/personal/display_yoochoose_recommendations');
     }
     
     
     protected function getApi() {
-    	$api = Mage::getSingleton('yoochoose/api_recommendation_related');
+    	$api = Mage::getSingleton('yoochoose/api_recommendation_personal');
     	return $api;
-    }
-    
-    
-    public function getColumnCount() {
-    	return 1; // it is a column on the right or left of the webpage
     }
 }

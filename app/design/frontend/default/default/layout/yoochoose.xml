@@ -11,17 +11,48 @@
                 <name>yoochoose.tracking</name>
             </action>
         </reference>
-
+ 
     </default>
+    
+    <cms_index_index>
+        <reference name="content">
+		    <block type="yoochoose/bestseller" name="yoochoose.bestseller" template="yoochoose/bestseller.phtml">
+	           	<action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
+	            <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
+	            <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
+	            <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
+	            <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>  
+		    </block>
+            <!-- disable again if necessary -->
+            <action method="unsetChild" ifconfig="yoochoose/general/disabled">
+                <name>yoochoose.bestseller</name>
+            </action>
+        </reference>
+        
+        <reference name="content">
+		    <block type="yoochoose/personal" name="yoochoose.personal" as="yoochoose_personal" template="yoochoose/personal.phtml">
+	           	<action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
+	            <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
+	            <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
+	            <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
+	            <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>  
+		    </block>
+            <!-- disable again if necessary -->
+            <action method="unsetChild" ifconfig="yoochoose/general/disabled">
+                <name>yoochoose.personal</name>
+            </action>	
+        </reference>
+	</cms_index_index>
+    
 
     <catalog_product_view>
         <reference name="product.info.upsell">
-            <action method="setTemplate" ifconfig="yoochoose/upselling/display_yoochoose_recommendations">
+            <action method="setTemplate">
                 <template>yoochoose/upsell.phtml</template>
             </action>
         </reference>
         <reference name="catalog.product.related">
-            <action method="setTemplate" ifconfig="yoochoose/related/display_yoochoose_recommendations">
+            <action method="setTemplate">
                 <template>yoochoose/related.phtml</template>
             </action>
         </reference>
@@ -29,7 +60,7 @@
 
     <checkout_cart_index>
         <reference name="checkout.cart.crosssell">
-            <action method="setTemplate" ifconfig="yoochoose/crossselling/display_yoochoose_recommendations">
+            <action method="setTemplate">
                 <template>yoochoose/crosssell.phtml</template>
             </action>
         </reference>

@@ -12,227 +12,106 @@ class AvS_Yoochoose_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function isActive()
     {
-        return
-            !Mage::getStoreConfig('yoochoose/general/disabled')
-            && Mage::getStoreConfig('yoochoose/api/license_type');
+        return ! Mage::getStoreConfig('yoochoose/general/disabled');
     }
 
-    /**
-     * Return Customer Session
-     *
-     * @return Mage_Customer_Model_Session 
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('customer/session');
-    }
-
+    
     /**
      * Get User Id from Cookie, Session or Customer Object (if logged in)
-     *
-     * @return string
      */
-    public function getUserId()
-    {
-        // get from session
-        if ($userId = $this->_getSession()->getYoochooseUserId()) {
+    public function getUserId() {
+    	
+    	$session = Mage::getSingleton('customer/session');
+    	
+    	if ($session && $session->isLoggedIn()) {
+    		return $session->getId();
+    	}
+    	
+    	$coreSession = Mage::getSingleton("core/session");
 
-            return $userId;
-        }
-
-        // get from customer object
-        if ($this->_getSession()->isLoggedIn()) {
-
-            $customer = $this->_getSession()->getCustomer();
-            if ($userId = $customer->getYoochooseUserId()) {
-
-                $this->_storeUserIdInSession($userId);
-                return $userId;
-            }
-        }
-
-        // get from cookie
-        $cookie = Mage::app()->getCookie();
-        if ($userId = $cookie->get(self::COOKIE_NAME)) {
-
-            $this->_storeUserId($userId);
-            return $userId;
-        }
-
-        // generate new
-        $userId = $this->_generateNewUserId();
-        $this->_storeUserId($userId);
-
-        return $userId;
+    	if ($coreSession && $coreSession->getSessionId()) {
+    		return $coreSession->getSessionId();
+    	}
     }
+    
 
     /**
      * On Login: Update User ID which is stored in customer object and cookie
      */
-    public function mergeUserIdOnLogin()
-    {
-        if ($this->_getSession()->isLoggedIn()) {
+    public function mergeUserIdOnLogin() {
+    	
+    	$session = Mage::getSingleton('customer/session');
+    	
+        if ($session && $session->isLoggedIn()) {
+        	$coreSession = Mage::getSingleton("core/session");
 
-            $sessionUserId = $this->getUserId();
+            $anonymousId = $coreSession->getSessionId();
+            $customerUserId = $session->getId();
+            
+            Mage::log('Transfering user ['.$anonymousId.'] to ['.$customerUserId.']...', Zend_Log::DEBUG, 'yoochoose.log'); 
 
-            $customer = $this->_getSession()->getCustomer();
-            $customerUserId = $customer->getYoochooseUserId();
+	    	$baseUrl = Mage::getStoreConfig('yoochoose/api/tracker_server');
+	    	$baseUrl = rtrim($baseUrl, "/");
+	    	
+	    	$clientId = Mage::getStoreConfig('yoochoose/api/client_id');
+		
+	        $url = $baseUrl.'/api/'.$clientId.'/transfer/'.urlencode($anonymousId).'/'.urlencode($customerUserId);
 
-            if ($sessionUserId != $customerUserId) {
-
-                if ($customerUserId) {
-
-                    // transfer from customer to session if exists already
-                    $this->_generateTransferEventInfo($sessionUserId, $customerUserId);
-                    $this->_storeUserIdInSession($customerUserId);
-                    $this->_storeUserIdInCookie($customerUserId);
-                } else {
-
-                    // transfer from session to customer if none at customer exists
-                    $this->_storeUserIdInCustomerObject($sessionUserId);
-                }
-            }
+	        try {
+	        	$this->_getHttpPage($url);
+	        } catch (Exception $e) {
+	        	Mage::log('Error transfering user ['.$anonymousId.'] to ['.$customerUserId.']...', Zend_Log::ERR, 'yoochoose.log');
+	        	Mage::logException($e);
+	        }
         }
     }
+    
+    
+	public function _getHttpPage($host, $params = array(), $options = array()) {
+		
+		$url = $host.($params ? '?'.http_build_query($params) : '');
 
-    /**
-     * Generate new user id
-     *
-     * @return string
-     */
-    protected function _generateNewUserId() {
+	    $def_user = Mage::getStoreConfig('yoochoose/api/client_id');
+	    $def_pw   = Mage::getStoreConfig('yoochoose/api/license_key');
+	    
+	    Mage::log('Requesting ['.$url.'] as ['.$def_user.']...', Zend_Log::DEBUG, 'yoochoose.log');
+	    
+	    $defaults = array(
+	        CURLOPT_URL => $url,
+	        CURLOPT_HEADER => 0,
+	        CURLOPT_RETURNTRANSFER => TRUE,
+	        CURLOPT_FOLLOWLOCATION => TRUE,
+	        CURLOPT_TIMEOUT => 2,
+	        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+	        CURLOPT_USERPWD => "$def_user:$def_pw",
+	        CURLOPT_SSL_VERIFYPEER => FALSE,
+	        CURLOPT_FAILONERROR => TRUE
+	    );
+	    
+	    $ch = curl_init();
+	    $options = $options + $defaults; // numeric arrays. Do not use merge_arrays!
+	    curl_setopt_array($ch, $options);  
+	    $result = curl_exec($ch);
+	    
+	    $eno = curl_errno($ch);
+	    
+    	if ($eno && $eno != 22) { // 22 = CURLE_HTTP_RETURNED_ERROR. PHP does not define this constant. Why? 
+    		$msg = 'I/O error requesting ['.$host.']. Code: '.$eno.". ".curl_error($ch);
+        	throw new Non200xException($msg, 0, '');
+    	}
+    	
+    	$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	    
+	    if (floor($status / 100) != 2) {
+	    	$msg = 'Error requesting ['.$host.']. Status: '.$status.'.';
+	    	throw new Non200xException($msg, $status, $result);
+	    }
+	    
+	    curl_close($ch);
+	
+	    return $result;
+	}
 
-        srand(intval(microtime(true) * 1000));
-        $salt = (string) Mage::getConfig()->getNode('global/crypt/key');
-        return md5($salt . rand());
-    }
-
-    /**
-     * Store a newly generated User Id
-     *
-     * @param string $userId
-     */
-    protected function _storeUserId($userId)
-    {
-        $this->_storeUserIdInSession($userId);
-        $this->_storeUserIdInCustomerObject($userId);
-        $this->_storeUserIdInCookie($userId);
-
-    }
-
-    /**
-     * Store a newly generated User Id in Customer Session
-     *
-     * @param string $userId
-     */
-    protected function _storeUserIdInSession($userId)
-    {
-        $this->_getSession()->setYoochooseUserId($userId);
-    }
-
-    /**
-     * Store a User Id in Customer Object (database)
-     *
-     * @param string $userId
-     */
-    protected function _storeUserIdInCustomerObject($userId)
-    {
-        if ($this->_getSession()->isLoggedIn()) {
-
-            $customer = $this->_getSession()->getCustomer();
-            $customer->setYoochooseUserId($userId);
-            $customer->getResource()->saveAttribute($customer, 'yoochoose_user_id');
-        }
-    }
-
-    /**
-     * Store a User Id in Customer Object (database)
-     *
-     * @param string $userId
-     */
-    protected function _storeUserIdInCookie($userId)
-    {
-        $cookie = Mage::app()->getCookie();
-
-        $cookie->set(self::COOKIE_NAME, $userId, true);
-    }
-
-    /**
-     *
-     * @param string $oldUserId
-     * @param string $newUserId
-     */
-    protected function _generateTransferEventInfo($oldUserId, $newUserId)
-    {
-        $this->_getSession()->setTransferEventInfo(array('old' => $oldUserId, 'new' => $newUserId));
-    }
-
-    /**
-     * Reading a page via HTTPS and returning its content.
-     *
-     * @param string $host
-     * @param string $username
-     * @param string $password
-     */
-    public function _getHttpsPage($host, $username, $password)
-    {
-        $client = new Varien_Http_Client();
-        $client->setUri($host)
-            ->setConfig(array('timeout' => 30))
-            ->setHeaders('accept-encoding', '')
-            ->setParameterGet(array())
-            ->setMethod(Zend_Http_Client::GET)
-            ->setAuth($username, $password);
-        $request = $client->request();
-        // Workaround for pseudo chunked messages which are yet too short, so
-        // only an exception is is thrown instead of returning raw body
-        if (!preg_match("/^([\da-fA-F]+)[^\r\n]*\r\n/sm", $request->getRawBody(), $m))
-            return $request->getRawBody();
-
-        return $request->getBody();
-    }
-
-    /**
-     * Reading a page via HTTP and returning its content.
-     *
-     * @param string $host
-     * @param array $params
-     */
-    public function _getHttpPage($host, $params)
-    {
-        $client = new Varien_Http_Client();
-        $client->setUri($host)
-            ->setConfig(array('timeout' => 30))
-            ->setHeaders('accept-encoding', '')
-            ->setParameterGet($params)
-            ->setMethod(Zend_Http_Client::GET);
-        $request = $client->request();
-        // Workaround for pseudo chunked messages which are yet too short, so
-        // only an exception is is thrown instead of returning raw body
-        if (!preg_match("/^([\da-fA-F]+)[^\r\n]*\r\n/sm", $request->getRawBody(), $m))
-            return $request->getRawBody();
-
-        return $request->getBody();
-    }
-
-    /**
-     * Sort Array by subkey
-     *
-     * @param array $inputArray
-     * @param string $subkey
-     * @return array
-     */
-    public function getArraySortedBySubkey($inputArray, $subkey)
-    {
-        $sortArray = array();
-
-        foreach ($inputArray as $key => $row) {
-            $sortArray[$key]  = $row[$subkey];
-        }
-
-        array_multisort($sortArray, SORT_DESC, $inputArray);
-        return $inputArray;
-    }
 
     /**
      * Generates Product URLs with "recommended" param
@@ -240,9 +119,24 @@ class AvS_Yoochoose_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Catalog_Model_Product $product
      * @return string
      */
-    public function getProductUrl($product)
-    {
+    public function getProductUrl($product) {
         $params = array('_query' => array('recommended' => 1));
         return $product->getUrlModel()->getUrl($product, $params);
+    }
+}
+
+
+class Non200xException extends Exception {
+	
+	private $body; 
+	
+    public function __construct($message, $code = 0, $body = "", Exception $previous = null) {
+        parent::__construct($message, $code, $previous);
+        
+        $this->body = $body;
+    }
+    
+    public function getBody() {
+    	return $this->body;
     }
 }
