@@ -52,7 +52,7 @@
                         <client_id translate="label,comment">
                             <label>Yoochoose Customer ID</label>
                             <comment><![CDATA[
-                            	If you don't have a Customer ID yet, <a href='http://www.yoochoose.com/en/pricing' target='_blank'>click here</a>.
+                            	If you don't have a Customer ID yet, <a href='https://admin.yoochoose.net/login.html?product=magento_Direct&lang=en' target='_blank'>click here</a>.
                            	]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
