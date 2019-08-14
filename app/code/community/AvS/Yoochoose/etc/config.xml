@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<AvS_Yoochoose>
+			<version>1.2.1</version>
+		</AvS_Yoochoose>
+	</modules>
+
+    <global>
+
+		<resources>
+			<yoochoose_setup>
+				<setup>
+					<module>AvS_Yoochoose</module>
+					<class>Mage_Customer_Model_Entity_Setup</class>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</yoochoose_setup>
+        </resources>
+
+        <models>
+            <yoochoose>
+                <class>AvS_Yoochoose_Model</class>
+            </yoochoose>
+        </models>
+
+        <helpers>
+            <yoochoose>
+                <class>AvS_Yoochoose_Helper</class>
+            </yoochoose>
+        </helpers>
+
+        <blocks>
+            <yoochoose>
+                <class>AvS_Yoochoose_Block</class>
+            </yoochoose>
+            <catalog>
+                <rewrite>
+                    <product_list_upsell>AvS_Yoochoose_Block_Upsell</product_list_upsell>
+                    <product_list_related>AvS_Yoochoose_Block_Related</product_list_related>
+                </rewrite>
+            </catalog>
+            <checkout>
+                <rewrite>
+                    <cart_crosssell>AvS_Yoochoose_Block_Crosssell</cart_crosssell>
+                </rewrite>
+            </checkout>
+        </blocks>
+
+    </global>
+
+    <frontend>
+
+        <events>
+            <customer_login>
+                <observers>
+                    <yoochoose>
+                        <type>singleton</type>
+                        <class>yoochoose/observer</class>
+                        <method>onCustomerLogin</method>
+                    </yoochoose>
+                </observers>
+            </customer_login>
+        </events>
+
+        <layout>
+            <updates>
+                <yoochoose>
+                    <file>yoochoose.xml</file>
+                </yoochoose>
+            </updates>
+        </layout>
+
+        <translate>
+            <modules>
+                <AvS_Yoochoose>
+                    <files>
+                        <default>AvS_Yoochoose.csv</default>
+                    </files>
+                </AvS_Yoochoose>
+            </modules>
+        </translate>
+
+    </frontend>
+
+    <adminhtml>
+
+        <events>
+            <admin_system_config_changed_section_yoochoose>
+                <observers>
+                    <yoochoose>
+                        <type>singleton</type>
+                        <class>yoochoose/observer</class>
+                        <method>adminSystemConfigChangedSectionYoochoose</method>
+                    </yoochoose>
+                </observers>
+            </admin_system_config_changed_section_yoochoose>
+            <admin_user_authenticate_after>
+                <observers>
+                    <yoochoose>
+                        <type>singleton</type>
+                        <class>yoochoose/observer</class>
+                        <method>updateStats</method>
+                    </yoochoose>
+                </observers>
+            </admin_user_authenticate_after>
+        </events>
+
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <yoochoose translate="title" module="yoochoose">
+                                            <title>Yoochoose</title>
+                                        </yoochoose>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+
+        <translate>
+            <modules>
+                <AvS_Yoochoose>
+                    <files>
+                        <default>AvS_Yoochoose.csv</default>
+                    </files>
+                </AvS_Yoochoose>
+            </modules>
+        </translate>
+
+    </adminhtml>
+
+    <default>
+        <yoochoose>
+            <general>
+                <disabled>0</disabled>
+            </general>
+            <crossselling>
+                <display_yoochoose_recommendations>0</display_yoochoose_recommendations>
+                <scenario>also_purchased</scenario>
+                <prefer_manual_connections>0</prefer_manual_connections>
+                <max_count>4</max_count>
+            </crossselling>
+            <upselling>
+                <display_yoochoose_recommendations>0</display_yoochoose_recommendations>
+                <scenario>also_purchased</scenario>
+                <prefer_manual_connections>0</prefer_manual_connections>
+                <max_count>4</max_count>
+            </upselling>
+            <related>
+                <display_yoochoose_recommendations>0</display_yoochoose_recommendations>
+                <scenario>also_clicked</scenario>
+                <prefer_manual_connections>0</prefer_manual_connections>
+                <max_count>4</max_count>
+            </related>
+        </yoochoose>
+    </default>
+
+    <crontab>
+        <translate>
+            <modules>
+                <AvS_Yoochoose>
+                    <files>
+                        <default>AvS_Yoochoose.csv</default>
+                    </files>
+                </AvS_Yoochoose>
+            </modules>
+        </translate>
+
+        <jobs>
+            <yoochoose_update_stats>
+                <schedule><cron_expr>0 * * * *</cron_expr></schedule>
+                <run><model>yoochoose/observer::updateStats</model></run>
+            </yoochoose_update_stats>
+        </jobs>
+    </crontab>
+</config>

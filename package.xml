@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<package>
+    <name>YOOCHOOSE_Recommender_Engine</name>
+    <version>1.2.2</version>
+    <stability>stable</stability>
+    <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Use our superior and patented recommender engine to boost your online sales with personalized and self-learning recommendations.</summary>
+    <description>Use our superior and patented recommender engine to boost your online sales with personalized and self-learning recommendations.&#xD;
+&#xD;
+YOOCHOOSE Recommender Engine&#xD;
+&#xD;
+Personalized and self-learning recommendations enable you to &#xD;
+&#x2022;	Sell more products online&#xD;
+&#x2022;	Lower costs for service and support&#xD;
+&#x2022;	Enhance usability of your website&#xD;
+Introduce recommendations &#x2013; increase sales&#xD;
+With the YOOCHOOSE Recommender Engine, you can combine the knowledge of your products and media content with the users' usage behavior in order to offer optimal individualized recommendations.&#xD;
+This enables all kinds of professional recommendations from simple Amazon&#xAE;-like &#x201C;Other people also bought &#x2026;&#x201D; to fully personalized and self-learning recommendations for your online shoppers.&#xD;
+ &#xD;
+Example (schematic representation): Just a few weeks after introduction of the recommender engine, purchases that have been proven to be based on personalized recommendations lead to a significant sales increase &#xD;
+YOOCHOOSE Recommendations will become the best sales person in your online shop and increases revenue typically by 5- 30 % depending on our specific business and the goods you sell.&#xD;
+&#xD;
+&#xD;
+Start with the plugin &#x2013; risk free pricing&#xD;
+Using this free of charge plugin for Magento enables you to send events from your online shop to the YOOCHOOSE recommender engine. In addition the plugin offer you to enrich your cross- and up-selling functions with high quality recommendations. You access the configuration through the administration panel (sub-menu at System/Configuration).&#xD;
+ &#xD;
+Data privacy &#x2013; we act responsible &#xD;
+As a German based company we are obliged to act on base of the highest data privacy and security standards in the world. Our data centers are certified according to ISO 27001 and have accomplished SAS70 Type II security audits. If you are a European-based company you don&#x2019;t have to fear that your data will be stored or forwarded to a location outside the European Community. If you operate from elsewhere in the world you can profit from this high security standards and express your responsibility for the privacy of your customers by choosing our service.&#xD;
+Try us for free! We offer the recommender engine with no upfront costs and a 30 day free trial period*.&#xD;
+*Limited trial version in regards of number of products and number of recommendations. Write us an e-mail to receive more information: info@yoochoose.com. &#xD;
+&#xD;
+&#xD;
+&#x2003;&#xD;
+&#x2022;	&#xDC;berblick&#xD;
+Steigern Sie Ihren Online-Umsatz durch personalisierte und selbstlernende Empfehlungen     mit unserer innovativen &#x201E;Recommender-Engine&#x201C;&#xD;
+&#xD;
+YOOCHOOSE Empfehlungen&#xD;
+Personalisierte und selbstlernende Empfehlungen machen es m&#xF6;glich:&#xD;
+&#xD;
+&#x2022;	Verkaufen Sie deutlich mehr Produkte in Ihrem Online Shop&#xD;
+&#x2022;	Senken Sie Ihre Kosten f&#xFC;r Wartung und Support&#xD;
+&#x2022;	Erh&#xF6;hen Sie die Attraktivit&#xE4;t Ihres Online-Auftritts&#xD;
+&#xD;
+Empfehlungen einf&#xFC;hren &#x2013; Umsatz steigern&#xD;
+Mit YOOCHOOSE Empfehlungen ist es erstmals m&#xF6;glich, das Wissen &#xFC;ber Ihre Produkte und Medien mit dem Benutzerverhalten ihrer Anwender zu kombinieren. Damit k&#xF6;nnen Sie Ihren K&#xE4;ufern optimal individualisierte Empfehlungen anbieten.&#xD;
+&#xD;
+Es gibt verschiedene M&#xF6;glichkeiten, um Empfehlungen effizient in Ihrem Online Shop einzusetzen. Wir bieten Ihnen das gesamte Spektrum vom einfachen &#x201E;Kunden kauften auch &#x2026;..&#x201C;-Empfehlungen a la Amazon&#xAE; bis hin zu vollst&#xE4;ndig personalisierten und selbstlernenden Empfehlungsverfahren.&#xD;
+ &#xD;
+Beispiel: Schon wenige Wochen nach der Einf&#xFC;hrung der Recommender Engine f&#xFC;hren Eink&#xE4;ufe, die eindeutig auf personalisierten Empfehlungen beruhen, zu einer signifikanten Steigerung des Umsatzes (Quelle: Schematische Darstellung der Daten von YOOCHOOSE Kunden)&#xD;
+Lassen Sie die YOOCHOOSE Recommender Engine zu ihrem besten Vertriebsmitarbeiter werden. Umsatzsteigerungen zwischen 5% und 25% k&#xF6;nnen je nach Gr&#xF6;&#xDF;e des Produktportfolio und Marktsegment erwartet werden.&#xD;
+Starten Sie mit dem unserem Magento-Plugin &#x2013; es ist kostenfrei&#xD;
+&#xDC;ber unser kostenfreies Magento-Shop Plugin ist es Ihnen m&#xF6;glich die verschiedenen Kauf- und Klick-Events aus Ihrem Shop an uns zu &#xFC;bermitteln. Dar&#xFC;ber hinaus passt das Plugin Ihre Cross- und Up-Selling Funktionen so an, dass Sie qualitativ hochwertige Empfehlungen neben den eigenen Empfehlungen ausspielen k&#xF6;nnen. Die Konfiguration erreichen Sie einfach &#xFC;ber das Admin-Panel (Untermenu von System/Configuration).&#xD;
+&#xD;
+ &#xD;
+&#xD;
+Datenschutz &#x2013; wir handeln verantwortungsbewusst&#xD;
+Wir legen hohen Wert auf die Einhaltung der Datenschutzverordnungen und Gesetze. Unsere Rechenzentren sind ISO27001-zertifiziert und wurden erfolgreich einer SAS70 Typ II Sicherheits&#xFC;berpr&#xFC;fung unterzogen. Bevor wir Daten f&#xFC;r Sie verarbeiten schlie&#xDF;en wir einen Vertrag zur Auftragsdatenverarbeitung mit Ihnen ab und helfen Ihnen die datenschutzrechtlichen Hinweise auf Ihrer Webseite entsprechend anzupassen.&#xD;
+Sollten Sie Ihren Firmensitz au&#xDF;erhalb der EU haben, dann profitieren Sie ebenfalls automatisch von unseren hohen Sicherheitsstandards. So wird stets die Privatsph&#xE4;re Ihrer Kunden gewahrt.&#xD;
+Nutzen Sie unsere kostenlose Testphase! Wir bieten Ihnen den Empfehlungsdienst ohne Bereitstellungsgeb&#xFC;hr kostenlos f&#xFC;r 30-Tage* an.&#xD;
+*Eingeschr&#xE4;nkte Test Version &#x2013; Beschr&#xE4;nkung des Produktumfangs und der Empfehlungsabrufe. Bei Fragen stehen wir Ihnen gerne telefonisch unter der Rufnummer 0221/16800762 sowie unter info@yoochoose.com zur Verf&#xFC;gung.</description>
+    <notes>Adjusted Registration URL</notes>
+    <authors><author><name>Andreas von Studnitz</name><user>auto-converted</user><email>avs@avs-webentwicklung.de</email></author></authors>
+    <date>2011-05-18</date>
+    <time>13:36:20</time>
+    <contents><target name="mageetc"><dir name="modules"><file name="AvS_Yoochoose.xml" hash="695d97ac588c41c8478b74cf27e24f56"/></dir></target><target name="magecommunity"><dir name="AvS"><dir name="Yoochoose"><dir name="Block"><file name="Crosssell.php" hash="19f6e22fb73a78ba7be2ed3986370943"/><file name="Recommendation.php" hash="476f5590d2613509f6fd3c3781801c57"/><file name="Related.php" hash="84d84555b6fa7ee79f56d75df752d00d"/><file name="Tracking.php" hash="0cee2eac736623c8d7ffdb400c126084"/><file name="Upsell.php" hash="d8f2b4597c96d54e7567e09223841a5b"/></dir><dir name="Helper"><file name="Data.php" hash="88e28453703452bb2b3a1c7fb0822915"/></dir><dir name="Model"><dir name="Api"><dir name="Recommendation"><file name="Crossselling.php" hash="a975b28acc8fb6fe5ef9bdae1ede7c09"/><file name="Related.php" hash="343feb6af7e8cdc2030819437b2c195d"/><file name="Upselling.php" hash="032a35a019762174ef1e1ea569ee61cb"/></dir><file name="Event.php" hash="e8a3294c4ee5cb7eec68d90621cf4774"/><file name="Recommendation.php" hash="840d90c0706a27718549c223c5a480c4"/></dir><file name="Api.php" hash="2ffa2e06e9b745b6759c4f3d0fce6853"/><file name="Observer.php" hash="7eb160372a4b2083c47c0a02b9f9d5e2"/></dir><dir name="etc"><file name="config.xml" hash="c90f22076ca8d4ac831520376d951438"/><file name="system.xml" hash="3c2ffaccdaa8d561d3dbda49e5cffbc0"/></dir><dir name="sql"><dir name="yoochoose_setup"><file name="mysql4-install-0.1.0.php" hash="d5c03520d481885434e75819007701a0"/></dir></dir></dir></dir></target><target name="magedesign"><dir name="frontend"><dir name="default"><dir name="default"><dir name="template"><dir name="yoochoose"><file name="crosssell.phtml" hash="ed022f89202e2f41536a4f71bc3c491f"/><file name="recommendation.phtml" hash="8f6024432a96168f276670135fbe371d"/><file name="related.phtml" hash="04ea700df2c84cc4ea2cc12df5fec95b"/><file name="tracking.phtml" hash="b981947607bfcb8d0cf15eaec70cb380"/><file name="upsell.phtml" hash="5b39cafe647f645c080420b50299c5ba"/></dir></dir><dir name="layout"><file name="yoochoose.xml" hash="56b7ed57066f29e412e75cf55d3a0d21"/></dir></dir></dir></dir></target><target name="magelocale"><dir name="de_DE"><file name="AvS_Yoochoose.csv" hash="1e5b71973b4aac4231c4cd5b93b88d1d"/></dir></target></contents>
+    <compatible/>
+    <dependencies/>
+</package>

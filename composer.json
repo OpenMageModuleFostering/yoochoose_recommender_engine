@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/YOOCHOOSE_Recommender_Engine",
+    "type": "magento-module",
+    "license": "OSL-v3.0",
+    "homepage": "",
+    "description": "Use our superior and patented recommender engine to boost your online sales with personalized and self-learning recommendations.",
+    "authors": [
+    {
+        "name": "Andreas von Studnitz",
+        "email": "avs@avs-webentwicklung.de"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

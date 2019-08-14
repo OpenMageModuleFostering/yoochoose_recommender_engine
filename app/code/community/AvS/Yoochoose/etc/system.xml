@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <yoochoose translate="label" module="yoochoose">
+            <label>Yoochoose</label>
+            <tab>catalog</tab>
+            <sort_order>990</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General Settings</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment><![CDATA[
+                        <script type="text/javascript">
+                            document.observe("dom:loaded", function() {
+                                $('yoochoose_general_stats').replace($('yoochoose_general_stats').value);
+                            });
+                        </script>
+                    ]]></comment>
+                    <fields>
+                        <disabled translate="label">
+                            <label>Disabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </disabled>
+                        <stats translate="label">
+                            <label>Statistics</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </stats>
+                    </fields>
+                </general>
+                <api translate="label">
+                    <label>API Settings</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment><![CDATA[
+                        <script type="text/javascript">
+                            document.observe("dom:loaded", function() {
+                                $('yoochoose_api_license_type').disabled = true;
+                            });
+                        </script>
+                    ]]></comment>
+                    <fields>
+                        <client_id translate="label,comment">
+                            <label>Yoochoose Client ID</label>
+                            <comment><![CDATA[If you don't have a Client ID yet, <a href="https://config.yoochoose.net/registration/registration.jsp?role=magento&lang=en" target="_blank">click here</a>.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </client_id>
+                        <license_key translate="label">
+                            <label>Yoochoose License Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </license_key>
+                        <license_type translate="label,comment">
+                            <label>Yoochoose License Type</label>
+                            <comment>Will be filled automatically after saving with correct license data</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </license_type>
+                    </fields>
+                </api>
+                <crossselling translate="label">
+                    <label>Cross Selling</label>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <display_yoochoose_recommendations translate="label">
+                            <label>Display Yoochoose Recommendations in Crossselling Block</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </display_yoochoose_recommendations>
+                        <scenario translate="label">
+                            <label>Scenario used</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </scenario>
+                        <!--prefer_manual_connections translate="label,comment">
+                            <label>Prefer manually entered Connections</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Don't display otherwise</comment>
+                        </prefer_manual_connections-->
+                        <max_count translate="label">
+                            <label>Max count of recommendations</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_count>
+                    </fields>
+                </crossselling>
+                <upselling translate="label">
+                    <label>Up Selling</label>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <display_yoochoose_recommendations translate="label">
+                            <label>Display Yoochoose Recommendations in Upselling Block</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </display_yoochoose_recommendations>
+                        <scenario translate="label">
+                            <label>Scenario used</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </scenario>
+                        <!--prefer_manual_connections translate="label,comment">
+                            <label>Prefer manually entered Connections</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Don't display otherwise</comment>
+                        </prefer_manual_connections-->
+                        <max_count translate="label">
+                            <label>Max count of recommendations</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_count>
+                    </fields>
+                </upselling>
+                <related translate="label">
+                    <label>Related Products</label>
+                    <sort_order>60</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <display_yoochoose_recommendations translate="label">
+                            <label>Display Yoochoose Recommendations in Related Products Block</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </display_yoochoose_recommendations>
+                        <scenario translate="label">
+                            <label>Scenario used</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </scenario>
+                        <!--prefer_manual_connections translate="label,comment">
+                            <label>Prefer manually entered Connections</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Don't display otherwise</comment>
+                        </prefer_manual_connections-->
+                        <max_count translate="label">
+                            <label>Max count of recommendations</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_count>
+                    </fields>
+                </related>
+            </groups>
+        </yoochoose>
+    </sections>
+</config>

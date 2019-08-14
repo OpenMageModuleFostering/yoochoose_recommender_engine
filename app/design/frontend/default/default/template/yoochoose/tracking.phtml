@@ -1,0 +1,46 @@
+<?php
+/**
+ * @category    AvS
+ * @package     AvS_Yoochoose
+ * @author      Andreas von Studnitz <avs@avs-webentwicklung.de>
+ */
+
+/** @var $this AvS_Yoochoose_Block_Tracking */
+?>
+
+<?php if (Mage::helper('yoochoose')->isActive() && sizeof($this->getTrackingPixelData()) > 0): ?>
+
+<div id="yoochoose_tracking">
+    <script type="text/javascript">
+    // <![CDATA[
+        Event.observe(window, 'load', function() {
+
+        <?php foreach ($this->getTrackingPixelData() as $trackingPixelData): ?>
+
+            var newImage = new Element('img', {
+                'src'   : '<?php echo $this->generateTrackingPixelUrl($trackingPixelData) ?>',
+                'alt'   : '',
+                'width'   : '0',
+                'height'   : '0'
+            });
+
+            var contentElement = $('yoochoose_tracking');
+
+            Element.insert(contentElement, {'bottom': newImage});
+
+        <?php endforeach ?>
+
+        });
+    // ]]>
+    </script>
+    <noscript>
+        <?php foreach ($this->getTrackingPixelData() as $trackingPixelData): ?>
+
+            <img src="<?php echo $this->generateTrackingPixelUrl($trackingPixelData) ?>" alt="<?php echo $this->__('Yoochoose Tracking') ?>" width="0" height="0" />
+
+        <?php endforeach ?>
+    </noscript>
+</div>
+
+<?php endif ?>
+
