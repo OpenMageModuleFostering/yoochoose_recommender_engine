@@ -42,7 +42,7 @@ class Yoochoose_JsTracking_ProductsController extends Mage_Core_Controller_Front
         $helper = Mage::getModel('catalog/product_media_config');
         $storeUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
         $priceHelper = Mage::helper('core');
-        $storeId = Mage::app()->getStore('default')->getId();
+        $storeId = Mage::app()->getStore()->getStoreId();
         $attributes = array('name', 'thumbnail', 'price', 'url_path');
         $collection = Mage::getResourceModel('catalog/product_collection')->
                 setStoreId($storeId)->
