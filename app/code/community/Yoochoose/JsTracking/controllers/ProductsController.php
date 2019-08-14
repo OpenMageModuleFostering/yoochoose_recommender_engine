@@ -40,10 +40,12 @@ class Yoochoose_JsTracking_ProductsController extends Mage_Core_Controller_Front
         $productIds = $this->getRequest()->getParam('productIds');
 
         $helper = Mage::getModel('catalog/product_media_config');
+        $thumbnailPlaceholder = Mage::getStoreConfig("catalog/placeholder/thumbnail_placeholder");
+        $placeholderFullPath = $helper->getBaseMediaUrl(). '/placeholder/' . $thumbnailPlaceholder;
         $storeUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
         $priceHelper = Mage::helper('core');
         $storeId = Mage::app()->getStore()->getStoreId();
-        $attributes = array('name', 'thumbnail', 'price', 'url_path');
+        $attributes = array('entity_id', 'name', 'thumbnail', 'price', 'url_path');
         $collection = Mage::getResourceModel('catalog/product_collection')->
                 setStoreId($storeId)->
                 addAttributeToSelect($attributes)->
@@ -51,15 +53,14 @@ class Yoochoose_JsTracking_ProductsController extends Mage_Core_Controller_Front
                 addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED))->
                 addAttributeToFilter('entity_id', array('in' => explode(',', $productIds)));
 
-        $collection->getSelect()->reset(Zend_Db_Select::COLUMNS);
-        $collection->getSelect()->columns(array('e.entity_id'));
-        $products = $collection->load()->toArray();
+        $products = $collection->load()->toArray($attributes);
 
         foreach ($products as &$product) {
             unset($product['stock_item']);
             $product['url_path'] = $storeUrl . $product['url_path'];
-            $product['thumbnail'] = $helper->getMediaUrl($product['thumbnail']);
             $product['price'] = $priceHelper->currency($product['price'], true, false);
+            $product['thumbnail'] = ($product['thumbnail'] ? $helper->getMediaUrl($product['thumbnail']) :
+                ($thumbnailPlaceholder ? $placeholderFullPath : null));
         }
 
         header('Content-Type: application/json;');

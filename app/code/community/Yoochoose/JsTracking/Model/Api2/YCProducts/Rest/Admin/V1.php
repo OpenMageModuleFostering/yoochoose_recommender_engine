@@ -16,6 +16,8 @@ class Yoochoose_JsTracking_Model_Api2_YCProducts_Rest_Admin_V1 extends Yoochoose
         $offset = $this->getRequest()->getParam('offset');
         $storeId = $this->_getStore()->getId();
         $helper = Mage::getModel('catalog/product_media_config');
+        $imagePlaceholder = Mage::getStoreConfig("catalog/placeholder/image_placeholder");
+        $placeholderFullPath = $helper->getBaseMediaUrl(). '/placeholder/' . $imagePlaceholder;
         $storeUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
 
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
@@ -42,7 +44,8 @@ class Yoochoose_JsTracking_Model_Api2_YCProducts_Rest_Admin_V1 extends Yoochoose
                 'description' => $product->getDescription(),
                 'price' => $product->getPrice(),
                 'url' => $storeUrl . $product->getUrlPath(),
-                'image' => $helper->getMediaUrl($product['image']),
+                'image' => ($product->getImage() ? $helper->getMediaUrl($product->getImage()) :
+                    ($imagePlaceholder ? $placeholderFullPath : null)),
                 'manufacturer' => $manufacturer ? $manufacturer : null,
                 'categories' => array(),
                 'tags' => array(),
