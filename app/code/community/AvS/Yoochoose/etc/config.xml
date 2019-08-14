@@ -3,7 +3,7 @@
 
 	<modules>
 		<AvS_Yoochoose>
-			<version>1.2.3</version>
+			<version>1.4.4</version>
 		</AvS_Yoochoose>
 	</modules>
 
@@ -86,15 +86,6 @@
                     </yoochoose>
                 </observers>
             </admin_system_config_changed_section_yoochoose>
-            <admin_user_authenticate_after>
-                <observers>
-                    <yoochoose>
-                        <type>singleton</type>
-                        <class>yoochoose/observer</class>
-                        <method>updateStats</method>
-                    </yoochoose>
-                </observers>
-            </admin_user_authenticate_after>
         </events>
 
         <acl>
@@ -181,12 +172,5 @@
                 </AvS_Yoochoose>
             </modules>
         </translate>
-
-        <!--jobs>
-            <yoochoose_update_stats>
-                <schedule><cron_expr>0 * * * *</cron_expr></schedule>
-                <run><model>yoochoose/observer::updateStats</model></run>
-            </yoochoose_update_stats>
-        </jobs-->
     </crontab>
 </config>

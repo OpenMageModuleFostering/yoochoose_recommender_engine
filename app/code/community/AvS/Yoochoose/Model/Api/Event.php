@@ -89,7 +89,10 @@ class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api {
                 continue;
             }
 
-            $trackingPixelData[] = $this->_generateItemData($item, $timestamp);
+            $itemData = $this->_generateItemData($item, $timestamp);
+            if ($itemData) {
+            	$trackingPixelData[] = $itemData;
+            } 
         }
 
         return $trackingPixelData;
@@ -107,9 +110,26 @@ class AvS_Yoochoose_Model_Api_Event extends AvS_Yoochoose_Model_Api {
     	
     	$itemType = Mage::getStoreConfig('yoochoose/api/item_type');
         $productId = $item->getProductId();
+        $product = $item->getProduct();
+        
+        $visibility = $product->getVisibility();
+
+        if ($visibility == Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE) {
+        	Mage::log("Product [$productId] is not visible. A part of a configurable?", Zend_Log::DEBUG, 'yoochoose.log');
+        	
+   			$parentIds = Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($product->getId());
+			if (isset($parentIds[0])) {
+				Mage::log("Product [$productId] is a child product of a configurable one. Parents: ".implode(",", $parentIds).". Using the first parent for tracking.", Zend_Log::DEBUG, 'yoochoose.log');
+				
+				$productId = $parentIds[0];
+			} else {
+				Mage::log("No paren found for [$productId]. Skipping...", Zend_Log::DEBUG, 'yoochoose.log');
+				return null;
+			}
+        }
         
         $currency = $item->getOrder()->getBaseCurrency()->getCode();
-
+        
         return array(
             'ItemId'        => $productId,
             'ItemTypeId'    => $itemType,
