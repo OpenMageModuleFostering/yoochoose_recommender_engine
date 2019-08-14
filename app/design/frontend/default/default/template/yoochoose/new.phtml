@@ -9,7 +9,7 @@
 
 <?php $_products = $this->getItemArray() ?>
 <?php if(count($_products)): ?>
-<h2 class="subtitle"><?php echo $this->getBlockName(); ?></h2>
+<h2 class="subtitle"><?php echo  $this->getBlockName(); ?></h2>
 <?php $_columnCount = $this->getColumnCount(); ?>
     <?php $i=0; foreach ($_products as $_product): ?>
         <?php if ($i++%$_columnCount==0): ?>

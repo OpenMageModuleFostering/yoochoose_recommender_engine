@@ -7,8 +7,6 @@
  */
 
 class AvS_Yoochoose_Model_Observer {
-	
-    const YOOCHOOSE_LICENSE_URL = 'https://admin.yoochoose.net/api/%customer_id%/license.json';
 
     /**
      * Update field "yoochoose_user_id" from session to
@@ -84,7 +82,9 @@ class AvS_Yoochoose_Model_Observer {
     	
     	Mage::log('Requesting license for ['.$clientId.']...', Zend_Log::DEBUG, 'yoochoose.log');
     	
-        $url = str_replace('%customer_id%', $clientId, self::YOOCHOOSE_LICENSE_URL);
+    	$url = Mage::getStoreConfig('yoochoose/api/config_server');
+    	$url = rtrim($url, "/");
+    	$url = $url."/api/".rawurlencode($clientId)."/license.json";
         
         $rawResponse = Mage::helper('yoochoose')->_getHttpPage($url);
         $response = Zend_Json::decode($rawResponse);

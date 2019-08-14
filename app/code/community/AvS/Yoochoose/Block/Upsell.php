@@ -28,5 +28,10 @@ class AvS_Yoochoose_Block_Upsell extends AvS_Yoochoose_Block_Recoabstract {
     	$api = Mage::getSingleton('yoochoose/api_recommendation_upselling');
     	return $api;
     }
+    
+    
+    protected function newHeaderKey() {
+    	return 'Also Purchased';
+    }
 
 }

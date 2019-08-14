@@ -25,7 +25,7 @@
  */
 ?>
 <?php if (($_products = $this->getProductCollection()) && $_products->getSize()): ?>
-<h2 class="subtitle"><?php echo $this->__('New Products') ?></h2>
+<h2 class="subtitle"><?php echo $this->__($this->newHeaderKey()); ?></h2>
 <?php $_columnCount = $this->getColumnCount(); ?>
     <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
     <?php $i=0; foreach ($_products->getItems() as $_product): ?>

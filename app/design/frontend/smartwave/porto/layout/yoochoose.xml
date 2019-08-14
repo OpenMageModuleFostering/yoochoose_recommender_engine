@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <default>
+        <!-- Yoochoose Tracking -->
+        <reference name="before_body_end">
+            <block type="yoochoose/tracking" name="yoochoose.tracking" template="yoochoose/tracking.phtml" />
+            <!-- disable again if necessary -->
+            <action method="unsetChild" ifconfig="yoochoose/general/disabled">
+                <name>yoochoose.tracking</name>
+            </action>
+        </reference>
+    </default>
+    
+    <cms_index_index>
+        <reference name="content">
+		    <block type="yoochoose/bestseller" name="yoochoose.bestseller" template="yoochoose/list.phtml">
+            	<action method="setColumnCount"><columns>4</columns></action>
+		    </block>
+            <!-- disable again if necessary -->
+            <action method="unsetChild" ifconfig="yoochoose/general/disabled">
+                <name>yoochoose.bestseller</name>
+            </action>
+        </reference>
+        
+        <reference name="content">
+		    <block type="yoochoose/personal" name="yoochoose.personal" template="yoochoose/list.phtml">
+            	<action method="setColumnCount"><columns>4</columns></action>
+		    </block>
+            <!-- disable again if necessary -->
+            <action method="unsetChild" ifconfig="yoochoose/general/disabled">
+                <name>yoochoose.personal</name>
+            </action>	
+        </reference>
+	</cms_index_index>
+    
+
+    <catalog_product_view>
+        <reference name="content">
+		    <block type="yoochoose/related" name="yoochoose.related" template="yoochoose/list.phtml">
+            	<action method="setColumnCount"><columns>4</columns></action>
+		    </block>
+            <!-- disable again if necessary -->
+            <action method="unsetChild" ifconfig="yoochoose/general/disabled">
+                <name>yoochoose.related</name>
+            </action>	
+        </reference>
+    </catalog_product_view>
+
+
+    <checkout_cart_index>
+        <reference name="checkout.cart.crosssell">
+        </reference>
+    </checkout_cart_index>
+
+</layout>

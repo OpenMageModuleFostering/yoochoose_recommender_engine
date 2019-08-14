@@ -33,5 +33,9 @@ class AvS_Yoochoose_Block_Crosssell extends AvS_Yoochoose_Block_Recoabstract {
     public function getColumnCount() {
     	return 1; // it is a column on the right or left of the webpage
     }
+    
+    protected function newHeaderKey() {
+    	return 'Also Purchased';
+    }
 
 }
