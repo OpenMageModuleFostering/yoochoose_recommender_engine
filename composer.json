@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/YOOCHOOSE_Recommender_Engine",
+    "name": "OpenMageModuleFostering\/YOOCHOOSE_Recommender_Engine",
     "type": "magento-module",
     "license": "MIT",
     "homepage": "",
     "description": "Use our superior and patented recommender engine to boost your online sales with personalized and self-learning recommendations.",
     "authors": [
-    {
-        "name": "yoochoose",
-        "email": "support@yoochoose.com"
-    }
-],
+        {
+            "name": "yoochoose",
+            "email": "support@yoochoose.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
